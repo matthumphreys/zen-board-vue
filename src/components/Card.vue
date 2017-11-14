@@ -1,9 +1,19 @@
 <template>
-  <div class="task" :data-card-id="card.id" v-on:click="editDetails">{{card.label}}</div>
+  <div class="task" :class="{'task-new': card.isDraft}" :data-card-id="card.id" v-on:click="editDetails"
+      :contenteditable="card.isDraft" v-focus="card.isDraft">{{card.label}}
+  </div>
 </template>
 
 <script>
 import EventBus from './EventBus'
+
+const focus = {
+  inserted (el, binding) {
+    if (binding.value) {
+      el.focus()
+    }
+  }
+}
 
 export default {
   name: 'card',
@@ -14,6 +24,9 @@ export default {
       // EventBus.$emit('card_end', 'hello')
       EventBus.$emit('card-edit-details', this.card.id)
     }
+  },
+  directives: {
+    focus: focus
   }
 }
 </script>
@@ -36,8 +49,35 @@ export default {
       cursor: pointer;
   }
 
+  /* ghost class used by Vue.Draggable */
   .ghost {
     opacity: .2;
     /*background: #C8EBFB;*/
+  }
+
+  /* DRAFT CARDS **************************************************************/
+
+  [contenteditable] {
+      z-index: 100;
+
+      white-space: pre-wrap;
+      background-color: #fffbdd; /*#f5f3d5;*/
+      /*
+      color: springgreen;
+      font-family: 'Courier New', Courier, monospace;
+      */
+
+      padding: 4px; /*3px 6px 4px 4px;*/
+      margin-bottom: 5px;
+      margin-top: 7px;
+      /* More intuitive without cursor: move */
+  }
+
+  [contenteditable]:hover {
+      background-color: rgba(255, 251, 221, 0.6) !important;
+
+      padding: 4px !important;
+      margin-bottom: 5px !important;
+      margin-top: 7px !important;
   }
 </style>

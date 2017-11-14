@@ -17,7 +17,9 @@
       </tr>
       <!-- REFACTOR: Extract to Row component? -->
       <tr v-for="row in rows">
-        <td>{{row.label}}</td>
+        <td>{{row.label}}
+          <div @click="addDraftCard">Add card</div>
+        </td>
         <cell v-for="(cell, index) in row.cells"
             :cell="cell" :rowId="row.id" :key="(row.id + ',' + index)"
             @card-drag-end="cardDragEnd"/>
@@ -86,6 +88,16 @@ export default {
     onSave: function (data) {
       console.log('board:onSave')
       EventBus.$emit('global-save', true)
+    },
+    addDraftCard: function (data) {
+      console.log('addCard', this.rows)
+      // TODO: Get current row
+      let currentRow = this.rows[0]
+      let draftCard = {
+        label: '',
+        isDraft: true
+      }
+      currentRow.cells[0].cards.push(draftCard)
     }
   },
   mounted () {

@@ -22,9 +22,9 @@ export default {
     dragOptions () {
       return {
         group: 'cards',
-        ghostClass: 'ghost'
+        ghostClass: 'ghost',
         // animation: 0,
-        // disabled: !this.editable,
+        disabled: this.contentEditable // Dragging draft card is currently wonky
       }
     }
   },

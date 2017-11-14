@@ -68,7 +68,7 @@ export default {
     },
     onCancelIfClickOutside: function (ev) {
       if (ev.srcElement.classList.contains('template-modal')) {
-        // XXX: Using cancel event because we can't access "self" inside event handler
+        // XXX: Use this.methods.onCancel() instead?
         EventBus.$emit('global-cancel', ev)
       }
     },
