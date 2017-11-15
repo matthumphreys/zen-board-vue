@@ -18,11 +18,13 @@
       <!-- REFACTOR: Extract to Row component? -->
       <tr v-for="row in rows">
         <td>{{row.label}}
-          <div @click="addDraftCard">Add card</div>
+          <!-- TODO: Disable "Add card" button when a draft already exists -->
+          <div v-if="!hasDraftCard(row.id)" @click="addDraftCard" :data-row-id="row.id">Add card</div>
         </td>
+        <!-- @card-drag-end is fired within cell component -->
         <cell v-for="(cell, index) in row.cells"
-            :cell="cell" :rowId="row.id" :key="(row.id + ',' + index)"
-            @card-drag-end="cardDragEnd"/>
+            :cell="cell" :key="(row.id + ',' + index)" :rowId="row.id"
+            @card-drag-end="cardDragEnd" />
       </tr>
     </table>
 
@@ -77,6 +79,10 @@ export default {
     })
   },
   methods: {
+    hasDraftCard: function (rowId) {
+      // TODO: Make Row a component, to simplify disabling "Add card" button
+      return false
+    },
     cardDragEnd: function (data) {
       console.log('board:card-drag-end', data)
       this.$socket.emit('task:move', data)
@@ -89,15 +95,39 @@ export default {
       console.log('board:onSave')
       EventBus.$emit('global-save', true)
     },
-    addDraftCard: function (data) {
-      console.log('addCard', this.rows)
-      // TODO: Get current row
-      let currentRow = this.rows[0]
+    addDraftCard: function (event) {
+      let rowId = event.srcElement.dataset.rowId
+      console.log('addCard', rowId)
+      let row = this.getRow(rowId)
       let draftCard = {
         label: '',
         isDraft: true
       }
-      currentRow.cells[0].cards.push(draftCard)
+      row.cells[0].cards.push(draftCard)
+    },
+    getRow: function (rowId) {
+      for (let i = 0; i < this.rows.length; i++) {
+        let row = this.rows[i]
+        if (row.id.toString() === rowId) return row
+      }
+    },
+    /** @param xy the row id and cell id of the Cancel button that was clicked */
+    removeDraftCards: function (rows, xy) {
+      console.log('Remove draft cards!')
+
+      // XXX: Use this.getRow
+      rows.forEach(function (row) {
+        row.cells.forEach(function (cell) {
+          // Use traditional "for" loop to avoid "modified during iteration" issues
+          for (let i = 0; i < cell.cards.length; i++) {
+            let card = cell.cards[i]
+            // Only remove draft from the "current" cell
+            if (card.isDraft && (xy.rowId === row.id.toString()) && (xy.colId === cell.colId.toString())) {
+              cell.cards.splice(i, 1)
+            }
+          }
+        })
+      })
     }
   },
   mounted () {
@@ -105,6 +135,10 @@ export default {
     EventBus.$on('rows-refreshed', function (rows) {
       console.log('board:rows-refreshed')
       self.rows = rows
+    })
+    EventBus.$on('draft-card-cancel', function (parentCell) {
+      console.log('draft-card-cancel', parentCell)
+      self.removeDraftCards(self.rows, parentCell)
     })
   }
 }

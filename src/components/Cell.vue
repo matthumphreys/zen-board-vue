@@ -3,7 +3,8 @@
     <draggable element="div" :list="cell.cards" class="dragArea" :options="dragOptions"
         :data-col-id="cell.colId" :data-row-id="rowId"
         @end="onEnd" @update="onUpdate" @change="onChange" @sort="onSort">
-      <card v-for="card in cell.cards" class="task" :card="card" key="card.id" />
+      <card v-for="card in cell.cards" v-if="!card.isDraft" :card="card" key="card.id" />
+      <draft-card v-else :card="card" key="card.id" :colId="cell.colId" :rowId="rowId" />
     </draggable>
   </td>
 </template>
@@ -11,12 +12,13 @@
 <script>
 import draggable from 'vuedraggable'
 import card from './Card'
+import draftCard from './DraftCard'
 
 export default {
   name: 'cell',
   props: ['cell', 'rowId'],
   components: {
-    draggable, card
+    draggable, card, draftCard
   },
   computed: {
     dragOptions () {
