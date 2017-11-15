@@ -89,9 +89,9 @@ export default {
           console.log('Card saved')
           // Hide card editor
           self.card = false
-          response.json().then(function (rows) {
-            EventBus.$emit('rows-refreshed', rows)
-          })
+          // response.json().then(function (rows) {
+          //   EventBus.$emit('rows-refreshed', rows)
+          // })
         } else {
           throw Error(response.statusText)  // Trigger catch
         }

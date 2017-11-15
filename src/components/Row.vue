@@ -1,12 +1,12 @@
 <template>
     <tr>
       <td>{{row.label}}
-        <!-- TODO: Disable "Add card" button when a draft already exists -->
-        <div v-if="!hasDraftCard(row.id)" @click="addDraftCard">Add card</div>
+        <div disabled="hasDraftCard" @click="addDraftCard">Add card</div>
       </td>
-      <!-- @card-drag-end is fired within cell component -->
+      <!-- @card-drag-end is originally fired within cell component -->
       <cell v-for="(cell, index) in row.cells"
           :cell="cell" :key="(row.id + ',' + index)" :rowId="row.id"
+          :hasDraftCard="hasDraftCard && (cell.colId === 1)"
           @card-drag-end="cardDragEnd" />
     </tr>
 </template>
@@ -21,44 +21,30 @@ export default {
     cell
   },
   props: ['row'],
+  data () {
+    return {
+      hasDraftCard: false
+    }
+  },
   methods: {
     cardDragEnd: function (data) {
       // Propogate up to parent
       this.$emit('card-drag-end', data)
     },
-    hasDraftCard: function (rowId) {
-      // TODO: Make Row a component, to simplify disabling "Add card" button
-      return false
-    },
     addDraftCard: function (event) {
-      let draftCard = {
-        label: '',
-        isDraft: true
-      }
-      this.row.cells[0].cards.push(draftCard)
+      this.hasDraftCard = true
     },
     /** @param xy the row id and cell id of the Cancel button that was clicked */
     removeDraftCards: function (xy) {
-      let row = this.row
-      if (row.id.toString() === xy.rowId) {
-        console.log('Removing draft cards from row', xy.rowId)
-        row.cells.forEach(function (cell) {
-          // Use traditional "for" loop to avoid "modified during iteration" issues
-          for (let i = 0; i < cell.cards.length; i++) {
-            let card = cell.cards[i]
-            // Only remove draft from the "current" cell
-            if (card.isDraft && (xy.rowId === row.id.toString()) && (xy.colId === cell.colId.toString())) {
-              cell.cards.splice(i, 1)
-            }
-          }
-        })
-      }
+      this.hasDraftCard = false
     }
   },
   mounted () {
     let self = this
-    EventBus.$on('draft-card-cancel', function (parentCell) {
-      self.removeDraftCards(parentCell)
+    EventBus.$on('draft-card-cancel', function (xy) {
+      if (xy.rowId === self.row.id.toString()) {
+        self.removeDraftCards(xy)
+      }
     })
   }
 }

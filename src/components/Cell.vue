@@ -3,20 +3,22 @@
     <draggable element="div" :list="cell.cards" class="dragArea" :options="dragOptions"
         :data-col-id="cell.colId" :data-row-id="rowId"
         @end="onEnd" @update="onUpdate" @change="onChange" @sort="onSort">
-      <card v-for="card in cell.cards" v-if="!card.isDraft" :card="card" key="card.id" />
-      <draft-card v-else :card="card" key="card.id" :colId="cell.colId" :rowId="rowId" />
+      <card v-for="card in cell.cards" :card="card" key="card.id" />
     </draggable>
+    <draft-card v-if="hasDraftCard" :rowId="rowId" :colId="cell.colId" />
   </td>
 </template>
 
 <script>
+/** This component is reponsible for dragging and dropping cards */
+
 import draggable from 'vuedraggable'
 import card from './Card'
 import draftCard from './DraftCard'
 
 export default {
   name: 'cell',
-  props: ['cell', 'rowId'],
+  props: ['cell', 'rowId', 'hasDraftCard'],
   components: {
     draggable, card, draftCard
   },

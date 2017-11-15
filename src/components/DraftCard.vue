@@ -1,6 +1,6 @@
 <template>
   <div class="draft-card-wrapper">
-    <div class="task-new" :contenteditable="true" v-focus>{{card.label}}</div>
+    <div class="task-new" :contenteditable="true" v-focus>{{label}}</div>
     <div class="button-container">
       <span class="button btn-cancel" title="[Esc]" @click="onCancel"
           :data-row-id="rowId" :data-col-id="colId">Cancel</span>
@@ -20,9 +20,14 @@ const focus = {
 
 export default {
   name: 'draft-card',
-  props: ['card', 'rowId', 'colId'],
+  props: ['rowId', 'colId'],
   directives: {
     focus: focus
+  },
+  data () {
+    return {
+      label: ''
+    }
   },
   methods: {
     onCancel: function (event) {

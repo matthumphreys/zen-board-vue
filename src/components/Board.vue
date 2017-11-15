@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Use of tables IS appropiate here... this is tabular data! -->
+    <!-- Use of tables *is* appropiate here... this is tabular data! -->
     <!-- @keyup.meta.enter doesn't work https://github.com/vuejs/vue/issues/1813 -->
     <table class="main" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
       <!-- Header row -->
@@ -16,6 +16,8 @@
         <th class="col">Done
         </th>
       </tr>
+
+      <!-- @card-drag-end is propagated up from Cell component -->
       <row v-for="row in rows" :row="row" key="row.id" @card-drag-end="cardDragEnd" />
     </table>
 
@@ -24,6 +26,10 @@
 </template>
 
 <script>
+/**
+ * This component is responsible for socketio
+ */
+
 import Vue from 'vue'
 // import cell from './Cell'
 import row from './Row'
@@ -49,6 +55,10 @@ export default {
     },
     customEmit: function (val) {
       console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+    },
+    boardRefresh: function (rows) {
+      console.log('boardRefresh', rows)
+      this.rows = rows
     }
   },
   watch: {
@@ -115,12 +125,10 @@ export default {
       console.log('board:rows-refreshed')
       self.rows = rows
     })
-    /*
-    EventBus.$on('draft-card-cancel', function (parentCell) {
-      console.log('draft-card-cancel', parentCell)
-      self.removeDraftCards(self.rows, parentCell)
-    })
-    */
+    /* EventBus.$on('draft-card-save', function (draftCard) {
+      console.log('draft-card-save', draftCard)
+      this.$socket.emit('task:save:broadcast', draftCard)
+    }) */
   }
 }
 </script>
