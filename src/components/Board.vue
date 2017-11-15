@@ -3,6 +3,7 @@
     <!-- Use of tables IS appropiate here... this is tabular data! -->
     <!-- @keyup.meta.enter doesn't work https://github.com/vuejs/vue/issues/1813 -->
     <table class="main" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
+      <!-- Header row -->
       <tr>
         <td class="cell-0">
         </td>
@@ -15,17 +16,7 @@
         <th class="col">Done
         </th>
       </tr>
-      <!-- REFACTOR: Extract to Row component? -->
-      <tr v-for="row in rows">
-        <td>{{row.label}}
-          <!-- TODO: Disable "Add card" button when a draft already exists -->
-          <div v-if="!hasDraftCard(row.id)" @click="addDraftCard" :data-row-id="row.id">Add card</div>
-        </td>
-        <!-- @card-drag-end is fired within cell component -->
-        <cell v-for="(cell, index) in row.cells"
-            :cell="cell" :key="(row.id + ',' + index)" :rowId="row.id"
-            @card-drag-end="cardDragEnd" />
-      </tr>
+      <row v-for="row in rows" :row="row" key="row.id" @card-drag-end="cardDragEnd" />
     </table>
 
     <cardEditor />
@@ -34,9 +25,9 @@
 
 <script>
 import Vue from 'vue'
-import cell from './Cell'
+// import cell from './Cell'
+import row from './Row'
 import cardEditor from './modals/CardEditor'
-// import draggable from 'vuedraggable'
 import EventBus from './EventBus'
 import VueSocketio from 'vue-socket.io'
 Vue.use(VueSocketio, 'http://localhost:3001') // Usually port 1923 ?
@@ -44,8 +35,8 @@ Vue.use(VueSocketio, 'http://localhost:3001') // Usually port 1923 ?
 export default {
   name: 'board',
   components: {
-    // draggable,
-    cell, cardEditor
+    // cell
+    row, cardEditor
   },
   data () {
     return {
@@ -63,7 +54,6 @@ export default {
   watch: {
     rows: function (newRows) {
       console.log(newRows)
-      // console.log(this.rows)
     }
   },
   created: function () {
@@ -79,10 +69,6 @@ export default {
     })
   },
   methods: {
-    hasDraftCard: function (rowId) {
-      // TODO: Make Row a component, to simplify disabling "Add card" button
-      return false
-    },
     cardDragEnd: function (data) {
       console.log('board:card-drag-end', data)
       this.$socket.emit('task:move', data)
@@ -94,24 +80,16 @@ export default {
     onSave: function (data) {
       console.log('board:onSave')
       EventBus.$emit('global-save', true)
-    },
-    addDraftCard: function (event) {
-      let rowId = event.srcElement.dataset.rowId
-      console.log('addCard', rowId)
-      let row = this.getRow(rowId)
-      let draftCard = {
-        label: '',
-        isDraft: true
-      }
-      row.cells[0].cards.push(draftCard)
-    },
+    }
+    /* ,
     getRow: function (rowId) {
       for (let i = 0; i < this.rows.length; i++) {
         let row = this.rows[i]
         if (row.id.toString() === rowId) return row
       }
     },
-    /** @param xy the row id and cell id of the Cancel button that was clicked */
+    */
+    /** @param xy the row id and cell id of the Cancel button that was clicked
     removeDraftCards: function (rows, xy) {
       console.log('Remove draft cards!')
 
@@ -129,6 +107,7 @@ export default {
         })
       })
     }
+    */
   },
   mounted () {
     let self = this
@@ -136,10 +115,12 @@ export default {
       console.log('board:rows-refreshed')
       self.rows = rows
     })
+    /*
     EventBus.$on('draft-card-cancel', function (parentCell) {
       console.log('draft-card-cancel', parentCell)
       self.removeDraftCards(self.rows, parentCell)
     })
+    */
   }
 }
 </script>
@@ -151,8 +132,9 @@ export default {
       /*border: 1px dotted #ABEBC6;*/
       border-collapse: collapse;
   }
+  /*
   td, th {
-      border: 1px dotted #239B56;/*#bbb;*/
+      border: 1px dotted #239B56;
       padding: 5px 7px 4px;
       vertical-align: top;
   }
@@ -168,4 +150,5 @@ export default {
       width: 22%;
       font-weight: normal;
   }
+  */
 </style>
