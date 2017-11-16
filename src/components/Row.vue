@@ -46,6 +46,11 @@ export default {
         self.removeDraftCards(xy)
       }
     })
+    EventBus.$on('draft-card-save', function (draftCard) {
+      if ((draftCard.rowId === self.row.id)) {
+        self.hasDraftCard = false
+      }
+    })
   }
 }
 </script>

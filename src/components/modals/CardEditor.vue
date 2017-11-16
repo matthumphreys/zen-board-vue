@@ -18,6 +18,7 @@
 </template>
 
 <script>
+// import Vue from 'Vue'
 import EventBus from '../EventBus'
 
 /* Custom Vue directive */
@@ -43,7 +44,7 @@ export default {
       console.log('Edit card', cardIdToEdit)
 
       // TODO: Polyfill for fetch
-      fetch('http://localhost:3001/api/cards/' + cardIdToEdit).then(function (response) {
+      fetch(process.env.API_URL + '/api/cards/' + cardIdToEdit).then(function (response) {
         response.json().then(function (json) {
           self.card = json
         })
@@ -78,7 +79,8 @@ export default {
       let self = this
 
       // TODO: Escape id
-      fetch('http://localhost:3001/api/cards/save', {
+      console.log('api url', process.env.API_URL)
+      fetch(process.env.API_URL + '/api/cards/save', {
         method: 'post',
         headers: new Headers({'Content-Type': 'application/json'}),
         body: JSON.stringify(this.card)

@@ -1,6 +1,6 @@
 <template>
   <div class="draft-card-wrapper">
-    <div class="task-new" :contenteditable="true" v-focus>{{label}}</div>
+    <div class="task-new" :contenteditable="true" @input="onInput" v-focus></div>
     <div class="button-container">
       <span class="button btn-cancel" title="[Esc]" @click="onCancel"
           :data-row-id="rowId" :data-col-id="colId">Cancel</span>
@@ -20,7 +20,7 @@ const focus = {
 
 export default {
   name: 'draft-card',
-  props: ['rowId', 'colId'],
+  props: ['rowId', 'colId', 'numCards'],
   directives: {
     focus: focus
   },
@@ -30,6 +30,9 @@ export default {
     }
   },
   methods: {
+    onInput: function (event) {
+      this.label = event.target.innerText
+    },
     onCancel: function (event) {
       let el = event.srcElement
       let rowId = el.dataset['rowId']
@@ -40,14 +43,15 @@ export default {
       }
       EventBus.$emit('draft-card-cancel', payload)
     },
-    onSave: function () {
+    onSave: function (event) {
       let cardToSave = {
-        label: 'New card',
-        rowId: 1,
-        colId: 1,
-        position: 1
+        label: this.label,
+        rowId: this.rowId,
+        colId: this.colId,
+        myOrder: this.numCards + 1  // XXX: Do server-side
       }
       EventBus.$emit('draft-card-save', cardToSave)
+      // EventBus.$emit('draft-card-save2', cardToSave)
     }
   }
 }

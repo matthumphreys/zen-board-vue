@@ -36,7 +36,7 @@ import row from './Row'
 import cardEditor from './modals/CardEditor'
 import EventBus from './EventBus'
 import VueSocketio from 'vue-socket.io'
-Vue.use(VueSocketio, 'http://localhost:3001') // Usually port 1923 ?
+Vue.use(VueSocketio, process.env.API_URL) // Usually port 1923 ?
 
 export default {
   name: 'board',
@@ -69,7 +69,7 @@ export default {
   created: function () {
     let self = this
     // TODO: Polyfill for fetch
-    fetch('http://localhost:3001/api/rows/deep').then(function (response) {
+    fetch(process.env.API_URL + '/api/rows/deep').then(function (response) {
       response.json().then(function (json) {
         self.rows = json
       })
@@ -125,10 +125,11 @@ export default {
       console.log('board:rows-refreshed')
       self.rows = rows
     })
-    /* EventBus.$on('draft-card-save', function (draftCard) {
+    EventBus.$on('draft-card-save', function (draftCard) {
       console.log('draft-card-save', draftCard)
-      this.$socket.emit('task:save:broadcast', draftCard)
-    }) */
+      // XXX: Call API from DraftCard component instead!
+      this.$socket.emit('task:create', draftCard)
+    })
   }
 }
 </script>

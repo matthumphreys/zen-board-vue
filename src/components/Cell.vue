@@ -5,7 +5,7 @@
         @end="onEnd" @update="onUpdate" @change="onChange" @sort="onSort">
       <card v-for="card in cell.cards" :card="card" key="card.id" />
     </draggable>
-    <draft-card v-if="hasDraftCard" :rowId="rowId" :colId="cell.colId" />
+    <draft-card v-if="hasDraftCard" :rowId="rowId" :colId="cell.colId" :numCards="cell.cards.length"/>
   </td>
 </template>
 
@@ -35,6 +35,7 @@ export default {
   methods: {
     onEnd (evt) {
       console.log('End (drag)') // , evt)
+      // TODO: Do nothing if user has pressed "escape"
       this.$emit('card-drag-end', {
         id: evt.clone.dataset.cardId, // cardId
         rowId: evt.to.dataset.rowId,  // toRowId
