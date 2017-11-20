@@ -1,8 +1,14 @@
+<!--
+Each row can be thought of as a "wave" of work.
+-->
 <template>
-    <tr>
-      <td>{{row.label}}
-        <div disabled="hasDraftCard" @click="addDraftCard">Add card</div>
-      </td>
+    <tr class="plain-bg" @mouseover="hover = true" @mouseleave="hover = false">
+      <th>
+        <div class="row-label">{{row.label}}</div>
+        <transition name="fade">
+          <div v-if="hover" class="btn-task-new" @click="addDraftCard" disabled="hasDraftCard">Add card</div>
+        </transition>
+      </th>
       <!-- @card-drag-end is originally fired within cell component -->
       <cell v-for="(cell, index) in row.cells"
           :cell="cell" :key="(row.id + ',' + index)" :rowId="row.id"
@@ -23,7 +29,8 @@ export default {
   props: ['row'],
   data () {
     return {
-      hasDraftCard: false
+      hasDraftCard: false,
+      hover: false
     }
   },
   methods: {
@@ -51,6 +58,12 @@ export default {
         self.hasDraftCard = false
       }
     })
+    EventBus.$on('masthead-add-card', function () {
+      console.log('masthead-add-card')
+      if (self.row.position === 1) {
+        self.hasDraftCard = true
+      }
+    })
   }
 }
 </script>
@@ -62,8 +75,10 @@ export default {
       vertical-align: top;
   }
   th {
-      background-color: #1D8348;
-      color: white;
+    text-align: left;
+    font-weight: normal;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #FFF; /* Depends on background picture/video! */
   }
   .cell-0 {
       border: none;
@@ -72,5 +87,35 @@ export default {
   .col {
       width: 22%;
       font-weight: normal;
+  }
+
+  .plain-bg {
+    background: rgba(0,0,0,0.4); /*#fff;*/
+  }
+
+  .btn-task-new {
+      font-weight: normal;
+      font-size: 13px;
+      /*font-family: 'Helvetica Neue', sans-serif;*/
+      background-color: #ddd;
+      padding: 3px 5px 3px 4px;
+      margin-top: 6px;
+      display: inline-block;
+      cursor: pointer;
+  }
+  .btn-task-new:hover {
+      background-color: rgba(221, 221, 221, 0.7);/*#eee*/;
+  }
+
+  /** TRANSITIONS *************************************************************/
+
+  .fade-enter-active {
+    transition: opacity .1s
+  }
+  .fade-leave-active {
+    transition: opacity .4s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0
   }
 </style>

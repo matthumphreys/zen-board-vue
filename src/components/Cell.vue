@@ -1,3 +1,8 @@
+<!--
+This component is reponsible for dragging and dropping cards.
+
+TODO: Handle when draft card added to empty cell
+-->
 <template>
   <td>
     <draggable element="div" :list="cell.cards" class="dragArea" :options="dragOptions"
@@ -10,8 +15,6 @@
 </template>
 
 <script>
-/** This component is reponsible for dragging and dropping cards */
-
 import draggable from 'vuedraggable'
 import card from './Card'
 import draftCard from './DraftCard'

@@ -1,13 +1,17 @@
+<!--
+This is the top-level component. It's responsible for socketio.
+-->
 <template>
-  <div>
-    <!-- Use of tables *is* appropiate here... this is tabular data! -->
+  <div class="wrapper">
+    <masthead />
+    <!-- Use of tables *is* appropiate here... it's tabular data! -->
     <!-- @keyup.meta.enter doesn't work https://github.com/vuejs/vue/issues/1813 -->
     <table class="main" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
       <!-- Header row -->
       <tr>
         <td class="cell-0">
         </td>
-        <th class="col">Todo
+        <th class="col">To do
         </th>
         <th class="col">Blocked
         </th>
@@ -26,23 +30,25 @@
 </template>
 
 <script>
-/**
- * This component is responsible for socketio
- */
-
 import Vue from 'vue'
-// import cell from './Cell'
+// import VideoBg from 'vue-videobg'
+// import VueVideoBackground from './misc/VueVideoBackground'
+import masthead from './Masthead'
 import row from './Row'
 import cardEditor from './modals/CardEditor'
 import EventBus from './EventBus'
 import VueSocketio from 'vue-socket.io'
-Vue.use(VueSocketio, process.env.API_URL) // Usually port 1923 ?
+
+// API might be on a different server
+let apiUrl = process.env.API_URL || window.location.origin
+Vue.use(VueSocketio, apiUrl)
+
+// Vue.component('video-bg', VueVideoBackground)
 
 export default {
   name: 'board',
   components: {
-    // cell
-    row, cardEditor
+    masthead, row, cardEditor
   },
   data () {
     return {
@@ -135,13 +141,18 @@ export default {
 </script>
 
 <style scoped>
+  .wrapper {
+    margin: 10px 10px 250px;
+  }
   table {
       width: 100%;
       background-color:rgba(0, 0, 0, 0);
       /*border: 1px dotted #ABEBC6;*/
       border-collapse: collapse;
+
+      margin-bottom: 50px;  /* XXX: For video background */
   }
-  /*
+  /* */
   td, th {
       border: 1px dotted #239B56;
       padding: 5px 7px 4px;
@@ -158,6 +169,7 @@ export default {
   .col {
       width: 22%;
       font-weight: normal;
+      font-family: 'Helvetica Neue', sans-serif;
   }
-  */
+
 </style>
