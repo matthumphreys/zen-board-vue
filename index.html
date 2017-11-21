@@ -3,38 +3,41 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Board: Metro Dev</title>
+  <title>Board: Acme Dev Team</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <!-- Place favicon.ico in the root directory -->
 
-  <!--
-  <script src="js/vendor/modernizr-2.8.3.min.js"></script>
-  <script src="js/vendor/socket.io.min.js"></script>
-  -->
-
   <style>
     video {
       position: fixed;
       top: 0;
-      width: 100%;
     }
+    /** See theme css for video width/height */
+
     #app {
       position: absolute;
       top: 0;
     }
   </style>
+  <link rel="stylesheet" type="text/css" href="static/themes/desert-beach/desert-beach.css" />
 </head>
 
 <body class="wb-socketio-config" data-api="http://localhost:3001/">
   <!--[if lt IE 8]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
+
   <video autoplay loop>
-    <!-- Two-Swimmers Mountain_Waterfall.mp4 -->
-    <source src="static/shutterstock_v12129530.mp4" type="video/webm">
+    <source src="static/themes/desert-beach/shutterstock_v12129530.mp4" type="video/webm">
   </video>
+  <!--
+  Alternate videos:
+  themes/ocean/Two-Swimmers.mp4
+  themes/mountain-waterfall/Mountain_Waterfall.mp4
+  -->
+
   <div id="app"></div>
   <!-- built files will be auto injected -->
 </body>

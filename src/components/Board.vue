@@ -8,7 +8,7 @@ This is the top-level component. It's responsible for socketio.
     <!-- @keyup.meta.enter doesn't work https://github.com/vuejs/vue/issues/1813 -->
     <table class="main" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
       <!-- Header row -->
-      <tr>
+      <tr class="column-heading-cell">
         <td class="cell-0">
         </td>
         <th class="col">To do
@@ -142,15 +142,13 @@ export default {
 
 <style scoped>
   .wrapper {
-    margin: 10px 10px 250px;
+    margin: 10px;
   }
   table {
       width: 100%;
       background-color:rgba(0, 0, 0, 0);
       /*border: 1px dotted #ABEBC6;*/
       border-collapse: collapse;
-
-      margin-bottom: 50px;  /* XXX: For video background */
   }
   /* */
   td, th {
@@ -159,7 +157,7 @@ export default {
       vertical-align: top;
   }
   th {
-      background-color: #1D8348;
+      /*background-color: #1D8348;*/
       color: white;
   }
   .cell-0 {

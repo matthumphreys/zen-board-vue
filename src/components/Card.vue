@@ -21,14 +21,15 @@ export default {
 <style scoped>
   .task {
     background-color: #D5F5E3;
-    padding: 4px;
+    padding: 4px 4px 4px 5px;
     margin-top: 3px;
     margin-bottom: 6px;
     cursor: pointer;
+    border-radius: 2px;
   }
   div.task:hover {
       background-color: rgba(213, 245, 227, 0.7);
-      padding: 4px;
+      padding: 4px 4px 4px 5px;
       margin-top: 3px;
       margin-bottom: 6px;
       /* "Pointer" icon is relevant to click (for details) and move.

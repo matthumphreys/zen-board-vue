@@ -3,10 +3,10 @@ Each row can be thought of as a "wave" of work.
 -->
 <template>
     <tr class="plain-bg" @mouseover="hover = true" @mouseleave="hover = false">
-      <th>
+      <th class="row-heading-cell">
         <div class="row-label">{{row.label}}</div>
         <transition name="fade">
-          <div v-if="hover" class="btn-task-new" @click="addDraftCard" disabled="hasDraftCard">Add card</div>
+          <div v-if="hover" class="btn-task-new" @click="addDraftCard" disabled="hasDraftCard">+ Add card</div>
         </transition>
       </th>
       <!-- @card-drag-end is originally fired within cell component -->
@@ -80,6 +80,12 @@ export default {
     font-family: 'Helvetica Neue', sans-serif;
     color: #FFF; /* Depends on background picture/video! */
   }
+  .row-heading-cell {
+    /* Placeholder */
+  }
+  .row-heading {
+    margin-top: 3px;
+  }
   .cell-0 {
       border: none;
       width: 12%;
@@ -97,14 +103,16 @@ export default {
       font-weight: normal;
       font-size: 13px;
       /*font-family: 'Helvetica Neue', sans-serif;*/
-      background-color: #ddd;
-      padding: 3px 5px 3px 4px;
+      background-color: #ccc;
+      color: #000;
+      padding: 4px 5px 4px 4px;
       margin-top: 6px;
       display: inline-block;
       cursor: pointer;
+      border-radius: 2px;
   }
   .btn-task-new:hover {
-      background-color: rgba(221, 221, 221, 0.7);/*#eee*/;
+      background-color: #bbb; /* rgba(221, 221, 221, 0.7); */ /* #eee; */
   }
 
   /** TRANSITIONS *************************************************************/
