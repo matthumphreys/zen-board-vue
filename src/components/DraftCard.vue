@@ -62,7 +62,7 @@ export default {
       z-index: 100;
 
       white-space: pre-wrap;
-      background-color: #fffbdd; /*#f5f3d5;*/
+      background-color: #e8f5fd; /* #fffbdd #f5f3d5 */
       /*
       color: springgreen;
       font-family: 'Courier New', Courier, monospace;
@@ -70,16 +70,18 @@ export default {
 
       padding: 4px; /*3px 6px 4px 4px;*/
       margin-bottom: 5px;
-      margin-top: 7px;
+      margin-top: 6px;
       /* More intuitive without cursor: move */
+
+      border-radius: 2px;
   }
 
   [contenteditable]:hover {
-      background-color: rgba(255, 251, 221, 0.6) !important;
+      background-color: #d6edfc !important;
 
       padding: 4px !important;
       margin-bottom: 5px !important;
-      margin-top: 7px !important;
+      margin-top: 6px !important;
   }
 
   /* BUTTONS ******************************************************************/
@@ -98,9 +100,22 @@ export default {
       background-color: #ddd;
       padding: 3px 5px 3px 5px;
       cursor: pointer;
+      border-radius: 2px;
   }
 
-  .button:hover {
-      background-color: rgba(221, 221, 221, 0.7);/*#eee;*/
+  .btn-save {
+    background-color: #5de48c;
+    color: #000;
+  }
+  .btn-save:hover {
+      background-color: #31dd6d;
+  }
+
+  .btn-cancel {
+    background-color: #CCC;
+    color: #000;
+  }
+  .btn-cancel:hover {
+      background-color: #BBB;
   }
 </style>

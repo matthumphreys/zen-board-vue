@@ -103,8 +103,8 @@ export default {
       font-weight: normal;
       font-size: 13px;
       /*font-family: 'Helvetica Neue', sans-serif;*/
-      background-color: #ccc;
-      color: #000;
+      background-color: #209cee;
+      color: #fff;
       padding: 4px 5px 4px 4px;
       margin-top: 6px;
       display: inline-block;
@@ -112,7 +112,7 @@ export default {
       border-radius: 2px;
   }
   .btn-task-new:hover {
-      background-color: #bbb; /* rgba(221, 221, 221, 0.7); */ /* #eee; */
+      background-color: #1190e3; /* rgba(221, 221, 221, 0.7); */ /* #eee; */
   }
 
   /** TRANSITIONS *************************************************************/

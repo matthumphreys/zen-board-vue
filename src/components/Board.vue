@@ -8,16 +8,16 @@ This is the top-level component. It's responsible for socketio.
     <!-- @keyup.meta.enter doesn't work https://github.com/vuejs/vue/issues/1813 -->
     <table class="main" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
       <!-- Header row -->
-      <tr class="column-heading-cell">
+      <tr >
         <td class="cell-0">
         </td>
-        <th class="col">To do
+        <th class="col col-todo">To do
         </th>
-        <th class="col">Blocked
+        <th class="col col-blocked">Blocked <span class="fa fa-exclamation-triangle"></span>
         </th>
-        <th class="col">In progress
+        <th class="col col-inprogress">In progress
         </th>
-        <th class="col">Done
+        <th class="col col-done">Done <span class="fa fa-check-circle"></span>
         </th>
       </tr>
 

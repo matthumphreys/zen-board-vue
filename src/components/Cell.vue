@@ -5,7 +5,7 @@ TODO: Handle when draft card added to empty cell
 -->
 <template>
   <td>
-    <draggable element="div" :list="cell.cards" class="dragArea" :options="dragOptions"
+    <draggable element="div" :list="cell.cards" class="drag-area" :options="dragOptions"
         :data-col-id="cell.colId" :data-row-id="rowId"
         @end="onEnd" @update="onUpdate" @change="onChange" @sort="onSort">
       <card v-for="card in cell.cards" :card="card" key="card.id" />
@@ -77,7 +77,7 @@ export default {
       cursor: pointer;
   }
 
-  .dragArea{
-       min-height: 10px;
+  .drag-area {
+       min-height: 40px;
   }
 </style>
