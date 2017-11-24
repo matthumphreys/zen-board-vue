@@ -26,6 +26,7 @@ This is the top-level component. It's responsible for socketio.
     </table>
 
     <cardEditor />
+    <row-editor />
   </div>
 </template>
 
@@ -36,6 +37,7 @@ import Vue from 'vue'
 import masthead from './Masthead'
 import row from './Row'
 import cardEditor from './modals/CardEditor'
+import RowEditor from './modals/RowEditor'
 import EventBus from './EventBus'
 import VueSocketio from 'vue-socket.io'
 
@@ -48,7 +50,7 @@ Vue.use(VueSocketio, apiUrl)
 export default {
   name: 'board',
   components: {
-    masthead, row, cardEditor
+    masthead, row, cardEditor, RowEditor
   },
   data () {
     return {

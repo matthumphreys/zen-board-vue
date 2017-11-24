@@ -1,17 +1,13 @@
 <!--
 This component is reponsible for dragging and dropping cards.
-
-TODO: Handle when draft card added to empty cell
 -->
 <template>
-  <td>
-    <draggable element="div" :list="cell.cards" class="drag-area" :options="dragOptions"
-        :data-col-id="cell.colId" :data-row-id="rowId"
-        @end="onEnd" @update="onUpdate" @change="onChange" @sort="onSort">
-      <card v-for="card in cell.cards" :card="card" key="card.id" />
-    </draggable>
+  <draggable element="td" :list="cell.cards" class="drag-area" :options="dragOptions"
+      :data-col-id="cell.colId" :data-row-id="rowId"
+      @end="onEnd" @update="onUpdate" @change="onChange" @sort="onSort">
+    <card v-for="card in cell.cards" :card="card" key="card.id" />
     <draft-card v-if="hasDraftCard" :rowId="rowId" :colId="cell.colId" :numCards="cell.cards.length"/>
-  </td>
+  </draggable>
 </template>
 
 <script>

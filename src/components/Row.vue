@@ -4,7 +4,7 @@ Each row can be thought of as a "wave" of work.
 <template>
     <tr class="plain-bg" @mouseover="hover = true" @mouseleave="hover = false">
       <th class="row-heading-cell">
-        <div class="row-label">{{row.label}}</div>
+        <div class="row-label" @click="onClick">{{row.label}}</div>
         <transition name="fade">
           <div v-if="hover" class="btn-task-new" @click="addDraftCard" disabled="hasDraftCard">+ Add card</div>
         </transition>
@@ -44,6 +44,10 @@ export default {
     /** @param xy the row id and cell id of the Cancel button that was clicked */
     removeDraftCards: function (xy) {
       this.hasDraftCard = false
+    },
+    onClick: function () {
+      console.log('onClick')
+      EventBus.$emit('row-edit-details', this.row.id)
     }
   },
   mounted () {
@@ -103,8 +107,8 @@ export default {
       font-weight: normal;
       font-size: 13px;
       /*font-family: 'Helvetica Neue', sans-serif;*/
-      background-color: #209cee;
-      color: #fff;
+      background-color: #CCC; /* #209cee; */
+      color: #000;
       padding: 4px 5px 4px 4px;
       margin-top: 6px;
       display: inline-block;
@@ -112,7 +116,7 @@ export default {
       border-radius: 2px;
   }
   .btn-task-new:hover {
-      background-color: #1190e3; /* rgba(221, 221, 221, 0.7); */ /* #eee; */
+      background-color: #BBB; /* #1190e3 rgba(221, 221, 221, 0.7); */ /* #eee; */
   }
 
   /** TRANSITIONS *************************************************************/

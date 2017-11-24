@@ -104,11 +104,11 @@ export default {
   }
 
   .btn-save {
-    background-color: #5de48c;
+    background-color: #CCC; /* #5de48c; */
     color: #000;
   }
   .btn-save:hover {
-      background-color: #31dd6d;
+      background-color: #BBB; /* #31dd6d; */
   }
 
   .btn-cancel {

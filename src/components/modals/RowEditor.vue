@@ -3,17 +3,17 @@
   Key handlers on board component seem flaky... is it a focus issue?
   Adding key handlers on this component too
   -->
-  <div v-if="card" class="template-task-details template-modal" @click="onCancelIfClickOutside">
+  <div v-if="row" class="template-task-details template-modal" @click="onCancelIfClickOutside">
     <!-- ^^ Clicking on background cancels the editor -->
     <div class="task-details-content modal-content" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
-      <div><input type="text" name="label" class="tdc-label form-label" v-model="card.label" v-focus></div>
-      <div><textarea name="description" class="tdc-description form-textarea" v-model="card.description"></textarea></div>
+      <div><input type="text" name="label" class="tdc-label form-label" v-model="row.label" v-focus></div>
+      <div><textarea name="description" class="tdc-description form-textarea" v-model="row.description" placeholder="Any additional info here"></textarea></div>
       <!--
       <div class="tdc-archive form-archive">Archive <input type="checkbox" name="archive" class="tdc-archive form-archive" v-model="card.isArchived"></div>
       -->
       <div class="modal-buttons tdc-buttons">
           <input type="button" class="modal-btn modal-cancel tdc-button-cancel" value="Cancel" title="[Esc]" @click="onCancel">
-          <span class="tdc-archive">Archive <input type="checkbox" name="archive" class="tdc-archive form-archive" v-model="card.isArchived"></span>
+          <span class="tdc-archive">Archive <input type="checkbox" name="archive" class="tdc-archive form-archive" v-model="row.isArchived"></span>
           <input type="button" class="modal-btn modal-save tdc-button-save" value="Save" title="[CMD + Enter]" @click="onSave">
       </div>
     </div>
@@ -32,24 +32,26 @@ const focus = {
 }
 
 export default {
-  name: 'cardEditor',
+  name: 'row-editor',
   directives: { focus: focus },
   data () {
     return {
-      card: false // No card to edit until user clicks one
+      row: false // No row to edit until user clicks one
     }
   },
 
   mounted () {
     let self = this
 
-    EventBus.$on('card-edit-details', function (cardIdToEdit) {
-      console.log('Edit card', cardIdToEdit)
+    EventBus.$on('row-edit-details', function (rowIdToEdit) {
+      console.log('Edit row', rowIdToEdit)
 
       // TODO: Polyfill for fetch
-      fetch(process.env.API_URL + '/api/cards/' + cardIdToEdit).then(function (response) {
+      fetch(process.env.API_URL + '/api/rows/' + rowIdToEdit).then(function (response) {
         response.json().then(function (json) {
-          self.card = json
+          self.row = json
+          // Set originalPosition - it's used when row is saved
+          self.row.originalPosition = json.my_order
         })
       }).catch(function (err) {
         console.error(err)
@@ -68,7 +70,7 @@ export default {
   methods: {
     onCancel: function () {
       // TODO: Persist unsaved changes to localStorage
-      this.card = false
+      this.row = false
     },
     onCancelIfClickOutside: function (ev) {
       if (ev.srcElement.classList.contains('template-modal')) {
@@ -77,23 +79,23 @@ export default {
       }
     },
     onSave: function () {
-      console.log('About to save card...')
-      this.card.timestamp = new Date().getTime()
+      console.log('About to save row...')
+      // this.card.timestamp = new Date().getTime()
       let self = this
 
       // TODO: Escape id
       console.log('api url', process.env.API_URL)
-      fetch(process.env.API_URL + '/api/cards/save', {
+      fetch(process.env.API_URL + '/api/rows/save', {
         method: 'post',
         headers: new Headers({'Content-Type': 'application/json'}),
-        body: JSON.stringify(this.card)
+        body: JSON.stringify(this.row)
 
       }).then(function (response) {
         // REFATOR: Extract function
         if (response.ok) {
           console.log('Card saved')
           // Hide card editor
-          self.card = false
+          self.row = false
           // response.json().then(function (rows) {
           //   EventBus.$emit('rows-refreshed', rows)
           // })

@@ -41,15 +41,15 @@ export default {
       float: right;
   }
   .nav-item {
-      background-color: #209cee; /*#ccc;*/
+      background-color: #CCC; /* #209cee #ccc */
       padding: 4px 5px 4px 4px;
       font-size: 13px;
       cursor: pointer;
       margin-left: 3px;
       border-radius: 2px;
-      color: #FFF;
+      color: #000;
   }
   .nav-item:hover {
-      background-color: #1190e3; /* bbb rgba(221, 221, 221, 0.7)*/
+      background-color: #BBB; /* #1190e3 bbb rgba(221, 221, 221, 0.7)*/
   }
 </style>
