@@ -4,8 +4,8 @@
           Acme Dev Team
       </div>
       <div class="nav">
-          <!--<span class="nav-item nav-row-new">+ Add row</span>-->
-          <span class="nav-item nav-task-new action-task-new" @click="onClick">+ Add card</span>
+          <span class="nav-item nav-row-new" @click="onAddRow">+ Add row</span>
+          <span class="nav-item nav-task-new action-task-new" @click="onAddCard">+ Add card</span>
       </div>
   </div>
 </template>
@@ -16,8 +16,11 @@ import EventBus from './EventBus'
 export default {
   name: 'masthead',
   methods: {
-    onClick: function () {
+    onAddCard: function () {
       EventBus.$emit('masthead-add-card', true)
+    },
+    onAddRow: function () {
+      EventBus.$emit('row-edit-details', 'new-row')
     }
   }
 }
@@ -25,7 +28,7 @@ export default {
 
 <style scoped>
   .masthead {
-      width: 302px; /*248px; /* 299px; /* 229px if there is only 1 button */;
+      width: 371px; /*248px; /* 299px; /* 229px if there is only 1 button */;
   }
   .heading {
       background-color: black;

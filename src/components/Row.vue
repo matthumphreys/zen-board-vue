@@ -87,8 +87,15 @@ export default {
   .row-heading-cell {
     /* Placeholder */
   }
+
+  /* ??? */
   .row-heading {
     margin-top: 3px;
+  }
+
+  .row-label {
+    margin-top: 7px;
+    cursor: pointer;
   }
   .cell-0 {
       border: none;

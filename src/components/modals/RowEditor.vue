@@ -6,8 +6,17 @@
   <div v-if="row" class="template-task-details template-modal" @click="onCancelIfClickOutside">
     <!-- ^^ Clicking on background cancels the editor -->
     <div class="task-details-content modal-content" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
-      <div><input type="text" name="label" class="tdc-label form-label" v-model="row.label" v-focus></div>
-      <div><textarea name="description" class="tdc-description form-textarea" v-model="row.description" placeholder="Any additional info here"></textarea></div>
+      <!-- <div v-if="row.isNew" class="form-title">
+        New row
+      </div> -->
+      <div><input type="text" name="label" class="tdc-label form-label" v-model="row.label" v-focus :placeholder="(row.isNew) ? 'New row' : 'Label'"></div>
+      <div v-if="allRows.length" class="tdc-position">
+        Position <select v-model="row.my_order">
+          <option :value="1">1 (top)</option>
+          <option v-for="rowOption in allRows" :value="rowOption.my_order + 1">{{rowOption.my_order + 1}} (after {{rowOption.label}})</option>
+        </select>
+      </div>
+      <div><textarea name="description" class="tdc-description form-textarea" v-model="row.info"></textarea></div><!-- placeholder="Any additional info here" -->
       <!--
       <div class="tdc-archive form-archive">Archive <input type="checkbox" name="archive" class="tdc-archive form-archive" v-model="card.isArchived"></div>
       -->
@@ -36,7 +45,8 @@ export default {
   directives: { focus: focus },
   data () {
     return {
-      row: false // No row to edit until user clicks one
+      row: false, // No row to edit until user clicks one,
+      allRows: []
     }
   },
 
@@ -46,12 +56,28 @@ export default {
     EventBus.$on('row-edit-details', function (rowIdToEdit) {
       console.log('Edit row', rowIdToEdit)
 
-      // TODO: Polyfill for fetch
-      fetch(process.env.API_URL + '/api/rows/' + rowIdToEdit).then(function (response) {
+      if (rowIdToEdit === 'new-row') {
+        self.row = {
+          isNew: true,
+          my_order: 1
+        }
+      } else {
+        // TODO: Polyfill for fetch
+        fetch(process.env.API_URL + '/api/rows/' + rowIdToEdit).then(function (response) {
+          response.json().then(function (json) {
+            self.row = json
+            // Set originalPosition - it's used when row is saved
+            self.row.originalPosition = json.my_order
+          })
+        }).catch(function (err) {
+          console.error(err)
+          alert('Sorry, something went wrong\n\n' + err)  // TODO: Improve
+        })
+      }
+
+      fetch(process.env.API_URL + '/api/rows/').then(function (response) {
         response.json().then(function (json) {
-          self.row = json
-          // Set originalPosition - it's used when row is saved
-          self.row.originalPosition = json.my_order
+          self.allRows = json
         })
       }).catch(function (err) {
         console.error(err)
@@ -149,6 +175,13 @@ export default {
 div.form-label {
     font-size: 24px;
     margin-bottom: 20px;
+}
+.tdc-position {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+.tdc-position select {
+  margin-left: 5px;
 }
 div.form-textarea {
     margin-bottom: 20px;

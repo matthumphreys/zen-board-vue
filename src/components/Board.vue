@@ -27,6 +27,7 @@ This is the top-level component. It's responsible for socketio.
 
     <cardEditor />
     <row-editor />
+    <archive />
   </div>
 </template>
 
@@ -38,6 +39,7 @@ import masthead from './Masthead'
 import row from './Row'
 import cardEditor from './modals/CardEditor'
 import RowEditor from './modals/RowEditor'
+import Archive from './Archive'
 import EventBus from './EventBus'
 import VueSocketio from 'vue-socket.io'
 
@@ -50,7 +52,7 @@ Vue.use(VueSocketio, apiUrl)
 export default {
   name: 'board',
   components: {
-    masthead, row, cardEditor, RowEditor
+    masthead, row, cardEditor, RowEditor, Archive
   },
   data () {
     return {
@@ -68,6 +70,7 @@ export default {
       console.log('boardRefresh', rows)
       this.rows = rows
     }
+    // TODO: archiveRefresh
   },
   watch: {
     rows: function (newRows) {
@@ -80,6 +83,7 @@ export default {
     fetch(process.env.API_URL + '/api/rows/deep').then(function (response) {
       response.json().then(function (json) {
         self.rows = json
+        // self.initArchive()
       })
     }).catch(function (err) {
       console.error(err)
@@ -98,34 +102,18 @@ export default {
     onSave: function (data) {
       console.log('board:onSave')
       EventBus.$emit('global-save', true)
-    }
-    /* ,
-    getRow: function (rowId) {
-      for (let i = 0; i < this.rows.length; i++) {
-        let row = this.rows[i]
-        if (row.id.toString() === rowId) return row
-      }
     },
-    */
-    /** @param xy the row id and cell id of the Cancel button that was clicked
-    removeDraftCards: function (rows, xy) {
-      console.log('Remove draft cards!')
-
-      // XXX: Use this.getRow
-      rows.forEach(function (row) {
-        row.cells.forEach(function (cell) {
-          // Use traditional "for" loop to avoid "modified during iteration" issues
-          for (let i = 0; i < cell.cards.length; i++) {
-            let card = cell.cards[i]
-            // Only remove draft from the "current" cell
-            if (card.isDraft && (xy.rowId === row.id.toString()) && (xy.colId === cell.colId.toString())) {
-              cell.cards.splice(i, 1)
-            }
-          }
+    initArchive: function () {
+      fetch(process.env.API_URL + '/api/archive/rows/deep').then(function (response) {
+        if (response.status !== 200) throw Error(response.statusText)
+        response.json().then(function (json) {
+          self.archivedRows = json
         })
+      }).catch(function (err) {
+        console.error(err)
+        alert('Couldn\'t load archive\n\n' + err)  // TODO: Improve
       })
     }
-    */
   },
   mounted () {
     let self = this
@@ -170,6 +158,7 @@ export default {
       width: 22%;
       font-weight: normal;
       font-family: 'Helvetica Neue', sans-serif;
+      cursor: default;
   }
 
 </style>
