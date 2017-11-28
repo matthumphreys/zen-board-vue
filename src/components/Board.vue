@@ -13,7 +13,7 @@ This is the top-level component. It's responsible for socketio.
         </td>
         <th class="col col-todo">To do
         </th>
-        <th class="col col-blocked">Blocked <span class="fa fa-exclamation-triangle"></span>
+        <th class="col col-blocked">Blocked<!-- <span class="fa fa-exclamation-triangle">--></span>
         </th>
         <th class="col col-inprogress">In progress
         </th>
@@ -27,7 +27,7 @@ This is the top-level component. It's responsible for socketio.
 
     <cardEditor />
     <row-editor />
-    <archive />
+    <!-- <archive :archivedRows='archivedRows' /> -->
   </div>
 </template>
 
@@ -56,7 +56,8 @@ export default {
   },
   data () {
     return {
-      rows: []
+      rows: [],
+      archivedRows: []
     }
   },
   sockets: {
@@ -75,6 +76,9 @@ export default {
   watch: {
     rows: function (newRows) {
       console.log(newRows)
+    },
+    archivedRows: function (newRows) {
+      console.log('watched', newRows)
     }
   },
   created: function () {
@@ -83,7 +87,7 @@ export default {
     fetch(process.env.API_URL + '/api/rows/deep').then(function (response) {
       response.json().then(function (json) {
         self.rows = json
-        // self.initArchive()
+        self.initArchive()
       })
     }).catch(function (err) {
       console.error(err)
@@ -104,10 +108,12 @@ export default {
       EventBus.$emit('global-save', true)
     },
     initArchive: function () {
+      let self = this
       fetch(process.env.API_URL + '/api/archive/rows/deep').then(function (response) {
         if (response.status !== 200) throw Error(response.statusText)
         response.json().then(function (json) {
           self.archivedRows = json
+          console.log('Archive', json)
         })
       }).catch(function (err) {
         console.error(err)
@@ -152,10 +158,10 @@ export default {
   }
   .cell-0 {
       border: none;
-      width: 12%;
+      width: 14%;
   }
   .col {
-      width: 22%;
+      width: 21.5%;
       font-weight: normal;
       font-family: 'Helvetica Neue', sans-serif;
       cursor: default;

@@ -11,9 +11,12 @@
 }
 
 /* Column headings ***********************************************************/
-th.col {
+th.col, .history-col {
   background-color: rgba(0, 0, 0, 0.3) !important; /*#1D8348;*/
   /*color: white !important;*/
+}
+.history-col {
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .col-todo {
@@ -33,8 +36,11 @@ th.col {
 .row-heading-cell {
   /*background: rgba(0, 0, 0, 0.6) !important;*/
 }
-.row-label {
+.main .row-label {
   color: white;
+}
+.history .row-label {
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 /* Cells *********************************************************************/
@@ -53,4 +59,8 @@ th, td:not(.cell-0) {
 }
 .task:hover {
   background-color: #EEE !important;
+}
+
+.history .task {
+  background-color: rgba(255, 255, 255, 0.5) !important;
 }

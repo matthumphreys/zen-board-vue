@@ -66,6 +66,8 @@ export default {
         fetch(process.env.API_URL + '/api/rows/' + rowIdToEdit).then(function (response) {
           response.json().then(function (json) {
             self.row = json
+            json.isArchived = json.is_archived
+            console.log(json)
             // Set originalPosition - it's used when row is saved
             self.row.originalPosition = json.my_order
           })

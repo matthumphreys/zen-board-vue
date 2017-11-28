@@ -1,3 +1,10 @@
+<!--
+1. When row is archived it should have it's position set to null (and other
+rows should have their position updated).
+2. The RowEditor for archived rows shouldn't show the "Position" field (unless
+user unchecks "Archive").
+3. Need to figure out dragging and dropping cards in archived rows.
+-->
 <template>
   <div class="history-container">
     <h3 class="section-heading">Archived rows</h3>
@@ -16,16 +23,20 @@
         </th>
       </tr>
 
-      <!--
-      <archive-row v-for="archiveRow in archiveRows" :row="archiveRow" key="archiveRow.id"/>
-      -->
+      <row v-for="row in archivedRows" :row="row" key="row.id" />
     </table>
   </div>
 </template>
 
 <script>
+import row from './Row'
+
 export default {
-  name: 'archive'
+  name: 'archive',
+  props: ['archivedRows'],
+  components: {
+    row
+  }
 }
 </script>
 
@@ -61,10 +72,10 @@ export default {
   }
   .cell-0 {
       border: none;
-      width: 12%;
+      width: 14%;
   }
-  .col {
-      width: 22%;
+  .history-col {
+      width: 21.5%;
       font-weight: normal;
       font-family: 'Helvetica Neue', sans-serif;
       cursor: default;
