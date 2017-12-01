@@ -8,7 +8,7 @@ This is the top-level component. It's responsible for socketio.
     <!-- @keyup.meta.enter doesn't work https://github.com/vuejs/vue/issues/1813 -->
     <table class="main" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
       <!-- Header row -->
-      <tr >
+      <tr>
         <td class="cell-0">
         </td>
         <th class="col col-todo">To do
@@ -24,6 +24,7 @@ This is the top-level component. It's responsible for socketio.
       <!-- @card-drag-end is propagated up from Cell component -->
       <row v-for="row in rows" :row="row" key="row.id" @card-drag-end="cardDragEnd" />
     </table>
+    <div v-if="rows.length === 0" class="no-rows">To create a row, click the "+ Add row" button</div>
 
     <cardEditor />
     <row-editor />
@@ -85,6 +86,9 @@ export default {
     let self = this
     // TODO: Polyfill for fetch
     fetch(process.env.API_URL + '/api/rows/deep').then(function (response) {
+      if (!response.ok) {
+        throw new Error(response.statusText)
+      }
       response.json().then(function (json) {
         self.rows = json
         self.initArchive()
@@ -104,8 +108,10 @@ export default {
       EventBus.$emit('global-cancel', true)
     },
     onSave: function (data) {
-      console.log('board:onSave')
-      EventBus.$emit('global-save', true)
+      // Avoid "global" save - it's unclear if it should apply to draft card, card modal or row modal
+
+      // console.log('board:onSave')
+      // EventBus.$emit('global-save', true)
     },
     initArchive: function () {
       let self = this
@@ -165,6 +171,12 @@ export default {
       font-weight: normal;
       font-family: 'Helvetica Neue', sans-serif;
       cursor: default;
+  }
+
+  .no-rows {
+    color: #fff;
+    margin-top: 15px;
+    text-align: center;
   }
 
 </style>

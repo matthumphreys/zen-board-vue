@@ -1,5 +1,6 @@
 <template>
-  <div :class="{task: true, urgent: isUrgent}" :data-card-id="card.id" v-on:click="editDetails">{{card.label}}</div>
+  <div :class="{task: true, urgent: isUrgent}" :data-card-id="card.id"
+      v-on:click="editDetails" :title="'id: ' + card.id">{{card.label}}</div>
 </template>
 
 <script>
@@ -11,7 +12,6 @@ export default {
   methods: {
     editDetails: function () {
       console.log('editDetails')
-      // EventBus.$emit('card_end', 'hello')
       EventBus.$emit('card-edit-details', this.card.id)
     }
   },

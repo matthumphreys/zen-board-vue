@@ -53,7 +53,7 @@ export default {
   mounted () {
     let self = this
     EventBus.$on('draft-card-cancel', function (xy) {
-      if (xy.rowId === self.row.id.toString()) {
+      if (xy.rowId.toString() === self.row.id.toString()) {
         self.removeDraftCards(xy)
       }
     })

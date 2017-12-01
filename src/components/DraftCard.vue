@@ -1,5 +1,5 @@
 <template>
-  <div class="draft-card-wrapper">
+  <div class="draft-card-wrapper" @keyup.ctrl.enter="onSave">
     <div class="task-new" :contenteditable="true" @input="onInput" v-focus></div>
     <div class="button-container">
       <span class="button btn-cancel" title="[Esc]" @click="onCancel"
@@ -34,9 +34,10 @@ export default {
       this.label = event.target.innerText
     },
     onCancel: function (event) {
-      let el = event.srcElement
-      let rowId = el.dataset['rowId']
-      let colId = el.dataset['colId']
+      console.log('onCancel', this.rowId, this.colId)
+      // let el = event.srcElement
+      let rowId = this.rowId // el.dataset['rowId']
+      let colId = this.colId // el.dataset['colId']
       let payload = {
         rowId: rowId,
         colId: colId
@@ -44,15 +45,25 @@ export default {
       EventBus.$emit('draft-card-cancel', payload)
     },
     onSave: function (event) {
-      let cardToSave = {
-        label: this.label,
-        rowId: this.rowId,
-        colId: this.colId,
-        myOrder: this.numCards + 1  // XXX: Do server-side
+      if (this.label) {
+        let cardToSave = {
+          label: this.label,
+          rowId: this.rowId,
+          colId: this.colId,
+          myOrder: this.numCards + 1  // XXX: Do server-side
+        }
+        EventBus.$emit('draft-card-save', cardToSave)
+      } else {
+        this.onCancel()
       }
-      EventBus.$emit('draft-card-save', cardToSave)
-      // EventBus.$emit('draft-card-save2', cardToSave)
     }
+  },
+  mounted () {
+    let self = this
+    EventBus.$on('global-cancel', function (rows) {
+      console.log('draft-card:global-cancel')
+      self.onCancel()
+    })
   }
 }
 </script>

@@ -5,7 +5,9 @@
   -->
   <div v-if="row" class="template-task-details template-modal" @click="onCancelIfClickOutside">
     <!-- ^^ Clicking on background cancels the editor -->
-    <div class="task-details-content modal-content" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
+
+    <!-- Clicking (CTRL + Enter) clashes with card onSave: @keyup.ctrl.enter="onSave" -->
+    <div class="task-details-content modal-content" @keyup.esc="onCancel">
       <!-- <div v-if="row.isNew" class="form-title">
         New row
       </div> -->
@@ -59,7 +61,8 @@ export default {
       if (rowIdToEdit === 'new-row') {
         self.row = {
           isNew: true,
-          my_order: 1
+          my_order: 1,
+          isArchived: false
         }
       } else {
         // TODO: Polyfill for fetch
@@ -91,7 +94,7 @@ export default {
       self.onCancel()
     })
 
-    EventBus.$on('global-save', function () {
+    EventBus.$on('global-save-row', function () {
       self.onSave()
     })
   },
@@ -136,7 +139,8 @@ export default {
     handleCmdEnter: function (e) {
       console.log(e)
       if ((e.metaKey || e.ctrlKey) && e.keyCode === 13) {
-        this.onSave()
+        // XXX: Disabled, clashes with card save
+        // this.onSave()
       }
     }
   }

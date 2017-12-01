@@ -61,7 +61,7 @@ export default {
       self.onCancel()
     })
 
-    EventBus.$on('global-save', function () {
+    EventBus.$on('global-save-card', function () {
       self.onSave()
     })
   },
@@ -77,30 +77,34 @@ export default {
       }
     },
     onSave: function () {
-      console.log('About to save card...')
-      this.card.timestamp = new Date().getTime()
-      let self = this
+      console.log('About to save card...', this.card)
+      if (this.card === false) {
+        console.log('Card modal has no card to save')
+      } else {
+        this.card.timestamp = new Date().getTime()
+        let self = this
 
-      // TODO: Escape id
-      console.log('api url', process.env.API_URL)
-      fetch(process.env.API_URL + '/api/cards/save', {
-        method: 'post',
-        headers: new Headers({'Content-Type': 'application/json'}),
-        body: JSON.stringify(this.card)
+        // TODO: Escape id
+        console.log('api url', process.env.API_URL)
+        fetch(process.env.API_URL + '/api/cards/save', {
+          method: 'post',
+          headers: new Headers({'Content-Type': 'application/json'}),
+          body: JSON.stringify(this.card)
 
-      }).then(function (response) {
-        // REFATOR: Extract function
-        if (response.ok) {
-          console.log('Card saved')
-          // Hide card editor
-          self.card = false
-          // response.json().then(function (rows) {
-          //   EventBus.$emit('rows-refreshed', rows)
-          // })
-        } else {
-          throw Error(response.statusText)  // Trigger catch
-        }
-      }).catch(err => alert('Sorry, something went wrong\n\n' + err))
+        }).then(function (response) {
+          // REFATOR: Extract function
+          if (response.ok) {
+            console.log('Card saved')
+            // Hide card editor
+            self.card = false
+            // response.json().then(function (rows) {
+            //   EventBus.$emit('rows-refreshed', rows)
+            // })
+          } else {
+            throw Error(response.statusText)  // Trigger catch
+          }
+        }).catch(err => alert('Sorry, something went wrong\n\n' + err))
+      }
     },
     /* meta.enter is broken https://github.com/vuejs/vue/issues/1813 */
     handleCmdEnter: function (e) {

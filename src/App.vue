@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <board/>
+    <footer>
+      <a href="https://github.com/matthumphreys/zenboard"><span class="footer-dark">Zen</span><span class="footer-light">board</span></a>
+    </footer>
   </div>
 </template>
 
@@ -43,5 +46,27 @@ export default {
   }
   body {
     margin: 0;
+  }
+  #app {
+    width: 100%;
+  }
+
+  footer {
+    text-align: center;
+    margin: 15px;
+  }
+  footer a {
+    background-color: #fff; /*rgba(0, 0, 0, 0.3);*/
+    color: #FFF;
+    font-size: 13px;
+    text-decoration: none;
+    padding: 2px 5px;
+  }
+  .footer-dark {
+    color: #157d39; /* #38761d */
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+  .footer-light {
+    color: rgba(21,125,57,0.5);
   }
 </style>

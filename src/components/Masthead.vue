@@ -5,6 +5,7 @@
       </div>
       <div class="nav">
           <span class="nav-item nav-row-new" @click="onAddRow">+ Add row</span>
+          <!-- TODO: Disable "Add card" if there are no rows! -->
           <span class="nav-item nav-task-new action-task-new" @click="onAddCard">+ Add card</span>
       </div>
   </div>
