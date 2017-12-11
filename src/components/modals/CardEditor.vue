@@ -3,25 +3,21 @@
   Key handlers on board component seem flaky... is it a focus issue?
   Adding key handlers on this component too
   -->
-  <div v-if="card" class="template-task-details template-modal" @click="onCancelIfClickOutside">
+  <div v-if="card" class="zen-modal zen-card-editor" @click="onCancelIfClickOutside">
     <!-- ^^ Clicking on background cancels the editor -->
-    <div class="task-details-content modal-content" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
-      <div><input type="text" name="label" class="tdc-label form-label" v-model="card.label" v-focus></div>
-      <div><textarea name="description" class="tdc-description form-textarea" v-model="card.description"></textarea></div>
-      <!--
-      <div class="tdc-archive form-archive">Archive <input type="checkbox" name="archive" class="tdc-archive form-archive" v-model="card.isArchived"></div>
-      -->
-      <div class="modal-buttons tdc-buttons">
-          <input type="button" class="modal-btn modal-cancel tdc-button-cancel" value="Cancel" title="[Esc]" @click="onCancel">
-          <span class="tdc-archive">Archive <input type="checkbox" name="archive" class="tdc-archive form-archive" v-model="card.isArchived"></span>
-          <input type="button" class="modal-btn modal-save tdc-button-save" value="Save" title="[CMD + Enter]" @click="onSave">
+    <div class="zmo-content" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
+      <div class="zfo-title"><input type="text" name="title" v-model="card.title" v-focus></div>
+      <div class="zfo-description"><textarea name="description" v-model="card.description"></textarea></div>
+      <div class="zfo-buttons">
+          <input type="button" class="zfo-button zfo-cancel" value="Cancel" title="[Esc]" @click="onCancel">
+          <span class="zfo-archive">Archive <input type="checkbox" name="archive" v-model="card.isArchived"></span>
+          <input type="button" class="zfo-button zfo-save" value="Save" title="[CMD + Enter]" @click="onSave">
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import Vue from 'Vue'
 import EventBus from '../EventBus'
 
 /* Custom Vue directive */
@@ -46,7 +42,6 @@ export default {
     EventBus.$on('card-edit-details', function (cardIdToEdit) {
       console.log('Edit card', cardIdToEdit)
 
-      // TODO: Polyfill for fetch
       fetch(process.env.API_URL + '/api/cards/' + cardIdToEdit).then(function (response) {
         response.json().then(function (json) {
           self.card = json
@@ -84,22 +79,18 @@ export default {
         this.card.timestamp = new Date().getTime()
         let self = this
 
-        // TODO: Escape id
-        console.log('api url', process.env.API_URL)
+        // XXX: Validate id is integer
         fetch(process.env.API_URL + '/api/cards/save', {
           method: 'post',
           headers: new Headers({'Content-Type': 'application/json'}),
           body: JSON.stringify(this.card)
 
         }).then(function (response) {
-          // REFATOR: Extract function
+          // REFACTOR: Extract function
           if (response.ok) {
             console.log('Card saved')
             // Hide card editor
             self.card = false
-            // response.json().then(function (rows) {
-            //   EventBus.$emit('rows-refreshed', rows)
-            // })
           } else {
             throw Error(response.statusText)  // Trigger catch
           }
@@ -116,98 +107,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-.template-modal {
-    /*display: none;*/
-    position: fixed;
-    z-index: 1;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-
-    padding-top: 20px;
-    overflow: auto; /* Enable scroll if needed */
-}
-.modal-content {
-    margin: 5% auto;
-    width: 70%;
-    max-width: 500px;
-    padding: 15px 19px 15px 13px;
-    background-color: #f9f9f9; /* #d5f5f3; */
-    border: 1px solid #CCC;
-    font-family: 'Helvetica Neue', sans-serif;
-
-    border-radius: 4px;
-}
-.form-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-div.form-label {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-div.form-textarea {
-    margin-bottom: 20px;
-    height: 380px;
-}
-div.form-archive {
-    margin-bottom: 20px;
-}
-
-input.form-label {
-    font-size: 23px;
-    width: 100%;
-    margin-bottom: 15px;
-
-    border-width: 2px;
-    /*border-color: #999;*/
-    padding: 4px;
-    width: 99%;
-}
-textarea.form-textarea {
-    width: 100%;
-    height: 380px;
-    margin-bottom: 10px;
-    font-size: 16px;
-
-    border-color: #CCC;
-}
-
-span.tdc-archive {
-  /*font-size: 14px;*/
-
-  float: left;
-  margin-top: 6px;
-  margin-left: 21px;
-  font-size: 13px;
-}
-
-.modal-buttons  {
-    text-align: right;
-}
-.modal-buttons  input {
-    background-color: #ddd;
-    font-size: 13px;
-}
-.modal-buttons  input:hover {
-    background-color: #eee;
-}
-.modal-btn {
-  width: 80px;
-  padding: 5px 20px;
-  /*padding-bottom: 5px;*/
-}
-.modal-save {
-  background-color: #209cee !important; /* #5de48c */
-  color: #FFF;
-}
-.modal-cancel {
-    float: left;
-}
-</style>

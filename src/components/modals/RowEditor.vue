@@ -3,36 +3,28 @@
   Key handlers on board component seem flaky... is it a focus issue?
   Adding key handlers on this component too
   -->
-  <div v-if="row" class="template-task-details template-modal" @click="onCancelIfClickOutside">
+  <div v-if="row" class="zen-modal zen-row-editor" @click="onCancelIfClickOutside">
     <!-- ^^ Clicking on background cancels the editor -->
 
-    <!-- Clicking (CTRL + Enter) clashes with card onSave: @keyup.ctrl.enter="onSave" -->
-    <div class="task-details-content modal-content" @keyup.esc="onCancel">
-      <!-- <div v-if="row.isNew" class="form-title">
-        New row
-      </div> -->
-      <div><input type="text" name="label" class="tdc-label form-label" v-model="row.label" v-focus :placeholder="(row.isNew) ? 'New row' : 'Label'"></div>
-      <div v-if="allRows.length" class="tdc-position">
-        Position <select v-model="row.my_order">
+    <div class="zmo-content" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
+      <div class="zfo-title"><input type="text" name="label" v-model="row.title" v-focus :placeholder="(row.isNew) ? 'New row' : 'Title'"></div>
+      <div v-if="allRows.length" class="zre-position">
+        Position <select v-model="row.position">
           <option :value="1">1 (top)</option>
-          <option v-for="rowOption in allRows" :value="rowOption.my_order + 1">{{rowOption.my_order + 1}} (after {{rowOption.label}})</option>
+          <option v-for="rowOption in allRows" :value="positionLabel(rowOption.position)" v-if="showOption(rowOption.position)">{{positionLabel(rowOption.position)}} (after {{rowOption.title}})</option>
         </select>
       </div>
-      <div><textarea name="description" class="tdc-description form-textarea" v-model="row.info"></textarea></div><!-- placeholder="Any additional info here" -->
-      <!--
-      <div class="tdc-archive form-archive">Archive <input type="checkbox" name="archive" class="tdc-archive form-archive" v-model="card.isArchived"></div>
-      -->
-      <div class="modal-buttons tdc-buttons">
-          <input type="button" class="modal-btn modal-cancel tdc-button-cancel" value="Cancel" title="[Esc]" @click="onCancel">
-          <span class="tdc-archive">Archive <input type="checkbox" name="archive" class="tdc-archive form-archive" v-model="row.isArchived"></span>
-          <input type="button" class="modal-btn modal-save tdc-button-save" value="Save" title="[CMD + Enter]" @click="onSave">
+      <div class="zfo-description"><textarea name="description" v-model="row.description"></textarea></div><!-- placeholder="Any additional info here" -->
+      <div class="zfo-buttons">
+          <input type="button" class="zfo-button zfo-cancel" value="Cancel" title="[Esc]" @click="onCancel">
+          <span class="zfo-archive">Archive <input type="checkbox" name="archive" class="tdc-archive form-archive" v-model="row.isArchived"></span>
+          <input type="button" class="zfo-button zfo-save" value="Save" title="[CMD + Enter]" @click="onSave">
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import Vue from 'Vue'
 import EventBus from '../EventBus'
 
 /* Custom Vue directive */
@@ -61,18 +53,20 @@ export default {
       if (rowIdToEdit === 'new-row') {
         self.row = {
           isNew: true,
-          my_order: 1,
+          position: 1,
           isArchived: false
         }
       } else {
-        // TODO: Polyfill for fetch
         fetch(process.env.API_URL + '/api/rows/' + rowIdToEdit).then(function (response) {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
           response.json().then(function (json) {
             self.row = json
             json.isArchived = json.is_archived
             console.log(json)
             // Set originalPosition - it's used when row is saved
-            self.row.originalPosition = json.my_order
+            self.row.originalPosition = json.position
           })
         }).catch(function (err) {
           console.error(err)
@@ -99,6 +93,25 @@ export default {
     })
   },
   methods: {
+    showOption: function (optionPosition) {
+      if (this.row.isNew) {
+        return true
+      } else {
+        return (optionPosition !== this.row.position)
+      }
+    },
+    positionLabel: function (optionPosition) {
+      console.log(this.row.position, optionPosition)
+      if (this.row.isNew) {
+        return optionPosition + 1
+      } else {
+        if (optionPosition > this.row.position) {
+          return optionPosition
+        } else {
+          return optionPosition + 1
+        }
+      }
+    },
     onCancel: function () {
       // TODO: Persist unsaved changes to localStorage
       this.row = false
@@ -147,104 +160,12 @@ export default {
 }
 </script>
 
-<style scoped>
-
-.template-modal {
-    /*display: none;*/
-    position: fixed;
-    z-index: 1;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-
-    padding-top: 20px;
-    overflow: auto; /* Enable scroll if needed */
-}
-.modal-content {
-    margin: 5% auto;
-    width: 70%;
-    max-width: 500px;
-    padding: 15px 19px 15px 13px;
-    background-color: #f9f9f9; /* #d5f5f3; */
-    border: 1px solid #CCC;
-    font-family: 'Helvetica Neue', sans-serif;
-
-    border-radius: 4px;
-}
-.form-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-div.form-label {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-.tdc-position {
+<style>
+.zre-position {
   font-size: 14px;
   margin-bottom: 15px;
 }
-.tdc-position select {
+.zre-position select {
   margin-left: 5px;
-}
-div.form-textarea {
-    margin-bottom: 20px;
-    height: 380px;
-}
-div.form-archive {
-    margin-bottom: 20px;
-}
-
-input.form-label {
-    font-size: 23px;
-    width: 100%;
-    margin-bottom: 15px;
-
-    border-width: 2px;
-    /*border-color: #999;*/
-    padding: 4px;
-    width: 99%;
-}
-textarea.form-textarea {
-    width: 100%;
-    height: 380px;
-    margin-bottom: 10px;
-    font-size: 16px;
-
-    border-color: #CCC;
-}
-
-span.tdc-archive {
-  /*font-size: 14px;*/
-
-  float: left;
-  margin-top: 6px;
-  margin-left: 21px;
-  font-size: 13px;
-}
-
-.modal-buttons  {
-    text-align: right;
-}
-.modal-buttons  input {
-    background-color: #ddd;
-    font-size: 13px;
-}
-.modal-buttons  input:hover {
-    background-color: #eee;
-}
-.modal-btn {
-  width: 80px;
-  padding: 5px 20px;
-  /*padding-bottom: 5px;*/
-}
-.modal-save {
-  background-color: #209cee !important; /* #5de48c */
-  color: #FFF;
-}
-.modal-cancel {
-    float: left;
 }
 </style>

@@ -2,19 +2,19 @@
 Each row can be thought of as a "wave" of work.
 -->
 <template>
-    <tr class="plain-bg" @mouseover="hover = true" @mouseleave="hover = false">
-      <th class="row-heading-cell">
-        <div class="row-label" @click="onClick">{{row.label}}</div>
-        <transition name="fade">
-          <div v-if="hover" class="btn-task-new" @click="addDraftCard" disabled="hasDraftCard">+ Add card</div>
-        </transition>
-      </th>
-      <!-- @card-drag-end is originally fired within cell component -->
-      <cell v-for="(cell, index) in row.cells"
-          :cell="cell" :key="(row.id + ',' + index)" :rowId="row.id"
-          :hasDraftCard="hasDraftCard && (cell.colId === 1)"
-          @card-drag-end="cardDragEnd" />
-    </tr>
+  <tr class="zbr-row zbr-table-bg" @mouseover="hover = true" @mouseleave="hover = false">
+    <th>
+      <div class="zro-title" @click="onClick" :data-is-test-data="row.title === '0F65u28Rc66ORYII'">{{row.title}}</div>
+      <transition name="zro-fade">
+        <div v-if="hover" class="zro-button" @click="addDraftCard" disabled="hasDraftCard">+&nbsp;Add&nbsp;card</div>
+      </transition>
+    </th>
+    <!-- @card-drag-end is originally fired within cell component -->
+    <cell v-for="(cell, index) in row.cells"
+        :cell="cell" :key="(row.id + ',' + index)" :rowId="row.id"
+        :hasDraftCard="hasDraftCard && (cell.colId === 1)"
+        @card-drag-end="cardDragEnd" />
+  </tr>
 </template>
 
 <script>
@@ -36,6 +36,7 @@ export default {
   methods: {
     cardDragEnd: function (data) {
       // Propogate up to parent
+      console.log('row:card-drag-end')
       this.$emit('card-drag-end', data)
     },
     addDraftCard: function (event) {
@@ -64,6 +65,7 @@ export default {
     })
     EventBus.$on('masthead-add-card', function () {
       console.log('masthead-add-card')
+      // XXX: What if first row has a different position?
       if (self.row.position === 1) {
         self.hasDraftCard = true
       }
@@ -72,49 +74,24 @@ export default {
 }
 </script>
 
-<style scoped>
-  td, th {
-      border: 1px dotted #239B56;/*#bbb;*/
-      padding: 5px 7px 4px;
-      vertical-align: top;
-  }
-  th {
+<style>
+  /** Zenboard row */
+
+  .zbr-row th {
     text-align: left;
     font-weight: normal;
     font-family: 'Helvetica Neue', sans-serif;
-    color: #FFF; /* Depends on background picture/video! */
-  }
-  .row-heading-cell {
-    /* Placeholder */
   }
 
-  /* ??? */
-  .row-heading {
-    margin-top: 3px;
-  }
-
-  .row-label {
+  .zro-title {
     margin-top: 7px;
     cursor: pointer;
   }
-  .cell-0 {
-      border: none;
-      width: 12%;
-  }
-  .col {
-      width: 22%;
-      font-weight: normal;
-  }
 
-  .plain-bg {
-    background: rgba(0,0,0,0.4); /*#fff;*/
-  }
-
-  .btn-task-new {
+  .zro-button {
       font-weight: normal;
       font-size: 13px;
-      /*font-family: 'Helvetica Neue', sans-serif;*/
-      background-color: #CCC; /* #209cee; */
+      background-color: #CCC;
       color: #000;
       padding: 4px 5px 4px 4px;
       margin-top: 6px;
@@ -122,19 +99,19 @@ export default {
       cursor: pointer;
       border-radius: 2px;
   }
-  .btn-task-new:hover {
-      background-color: #BBB; /* #1190e3 rgba(221, 221, 221, 0.7); */ /* #eee; */
+  .zro-button:hover {
+      background-color: #BBB;
   }
 
   /** TRANSITIONS *************************************************************/
 
-  .fade-enter-active {
+  .zro-fade-enter-active {
     transition: opacity .1s
   }
-  .fade-leave-active {
+  .zro-fade-leave-active {
     transition: opacity .4s
   }
-  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  .zro-fade-enter, .zro-fade-leave-to {
     opacity: 0
   }
 </style>

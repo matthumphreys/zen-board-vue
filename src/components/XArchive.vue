@@ -1,4 +1,6 @@
 <!--
+WORK IN PROGRESS!
+
 1. When row is archived it should have it's position set to null (and other
 rows should have their position updated).
 2. The RowEditor for archived rows shouldn't show the "Position" field (unless
@@ -41,10 +43,8 @@ export default {
 </script>
 
 <style scoped>
-
   /*
   font-size: 26px;
-
   font-weight: bold;
   display: inline-block;
   margin: 0px 0 15px;

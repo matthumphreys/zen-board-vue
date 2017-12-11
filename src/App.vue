@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <board/>
-    <footer>
-      <a href="https://github.com/matthumphreys/zenboard"><span class="footer-dark">Zen</span><span class="footer-light">board</span></a>
+    <footer class="zen-footer">
+      <a href="https://github.com/matthumphreys/zenboard"><span class="zfo-logo-dark">Zen</span><span class="zfo-logo-light">board</span></a><span class="zfo-version">v0.1</span>
     </footer>
   </div>
 </template>
@@ -28,21 +28,6 @@ export default {
     -webkit-text-size-adjust: 100%;
 
   	font-family: 'HelveticaNeue-Light', 'Helvetica Neue', sans-serif;
-
-    /**
-     * Stock videos :))
-     * https://www.pond5.com/stock-footage/306387/highlands-008-loop.html
-     * https://www.pond5.com/stock-footage/72632228/miners-beach-windy-day-loop.html
-     * https://www.shutterstock.com/video/clip-12518906-stock-footage-cinemagraph-loop-clouds-move-passed-the-sun-and-through-forest-motion-photo.html?src=search/kTmTxBVgebz5F_PGINyHaw:1:40/3p
-     * https://www.shutterstock.com/video/clip-14868547-stock-footage-cinemagraph-loop-lofoten-beach-in-norway-motion-photo.html?src=search/eXBcS-TBy1YEFzvr-IhYMA:1:19/gg
-     */
-
-    /*background: url(assets/photo-1499162526249-f5b8b9ba9923.jpg) no-repeat center center fixed;
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
-      background-size: cover;
-      padding: 10px 10px;*/
   }
   body {
     margin: 0;
@@ -51,22 +36,104 @@ export default {
     width: 100%;
   }
 
-  footer {
+  /* Zen footer ***************************************************************/
+
+  .zen-footer {
     text-align: center;
     margin: 15px;
   }
-  footer a {
-    background-color: #fff; /*rgba(0, 0, 0, 0.3);*/
+  .zen-footer a {
+    background-color: #fff;
     color: #FFF;
-    font-size: 13px;
+    font-size: 14px;
     text-decoration: none;
     padding: 2px 5px;
   }
-  .footer-dark {
-    color: #157d39; /* #38761d */
+  .zfo-logo-dark {
+    color: #157d39; /* Alternatively, #38761d */
     font-family: 'Helvetica Neue', sans-serif;
   }
-  .footer-light {
+  .zfo-logo-light {
     color: rgba(21,125,57,0.5);
+    margin-left: 1px;
+  }
+  .zfo-version {
+    color: #FFF;
+    font-size: 12px;
+    margin-left: 5px;
+  }
+
+  /* Zen modal ****************************************************************/
+
+  .zen-modal {
+    position: fixed;
+    z-index: 1;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+
+    padding-top: 20px;
+    overflow: auto; /* Enable scroll if needed */
+  }
+  .zmo-content {
+    margin: 5% auto;
+    width: 70%;
+    max-width: 500px;
+    padding: 15px 19px 15px 13px;
+    background-color: #f9f9f9; /* #d5f5f3; */
+    border: 1px solid #CCC;
+    font-family: 'Helvetica Neue', sans-serif;
+
+    border-radius: 4px;
+  }
+
+  /* Zen form *****************************************************************/
+
+  .zfo-title input {
+    font-size: 23px;
+    width: 100%;
+    margin-bottom: 15px;
+
+    border-width: 2px;
+    padding: 4px;
+    width: 99%;
+  }
+  .zfo-description textarea {
+    width: 100%;
+    height: 380px;
+    margin-bottom: 10px;
+    font-size: 16px;
+
+    border-color: #CCC;
+  }
+  .zfo-archive {
+    float: left;
+    margin-top: 6px;
+    margin-left: 21px;
+    font-size: 13px;
+  }
+
+  /* Buttons */
+
+  .zfo-buttons {
+    text-align: right;
+  }
+  .zfo-button {
+    background-color: #ddd;
+    font-size: 13px;
+    width: 80px;
+    padding: 5px 20px;
+  }
+  .zfo-button:hover {
+    background-color: #eee;
+  }
+  .zfo-save {
+    background-color: #209cee !important; /* Alternate value: #5de48c */
+    color: #FFF;
+  }
+  .zfo-cancel {
+    float: left;
   }
 </style>

@@ -27,23 +27,25 @@
       top: 0;
     }
 
-    .hashtag { color: #999; } /* #194893; */
+    .hashtag { color: #999; } /* Alternatively, #194893 */
 
+    /* Grey styles for @mentions */
     .person-mh, .person-g, .person-h,
-    .person-a, .person-mi, .person-s { color: #999; } /* #999 */
+    .person-mi, .person-s, .person-a { color: #999; }
 
-    .xperson-mh { color: #cb1081; } /* pink */
-    .xperson-g { color: #188f42; } /* green */
-    .xperson-h { color: #500eb4; } /* purple */
-    .xperson-mi { color: #3273dc; }
-    .xperson-s { color: #cb5a10; } /* orange */
-    .xperson-a { color: #1c51a5; } /* navy */
+    /* Colour styles for @mentions */
+    .pink-mh { color: #cb1081; }
+    .green-g { color: #188f42; }
+    .purple-h { color: #500eb4; }
+    .color-mi { color: #3273dc; }
+    .orange-s { color: #cb5a10; }
+    .navy-a { color: #1c51a5; }
   </style>
   <link rel="stylesheet" type="text/css" href="static/themes/desert-beach/desert-beach.css" />
   <link rel="stylesheet" type="text/css" href="static/font-awesome-4.7.0/css/font-awesome.min.css" />
 </head>
 
-<body class="wb-socketio-config" data-api="http://localhost:3001/">
+<body>
   <!--[if lt IE 8]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
@@ -51,14 +53,21 @@
   <video autoplay loop poster="static/themes/desert-beach/poster.png">
     <source src="static/themes/desert-beach/shutterstock_v12129530.mp4" type="video/webm">
   </video>
-  <!--
-  Alternate videos:
-  themes/ocean/Two-Swimmers.mp4
-  themes/mountain-waterfall/Mountain_Waterfall.mp4
-  -->
 
   <div id="app"></div>
   <!-- built files will be auto injected -->
+
+  <!--
+  Froo videos (but not loops) from Coverr:
+  Two-Swimmers
+  Mountain_Waterfall.mp4
+
+  Stock loops:
+  https://www.pond5.com/stock-footage/306387/highlands-008-loop.html
+  https://www.pond5.com/stock-footage/72632228/miners-beach-windy-day-loop.html
+  https://www.shutterstock.com/video/clip-12518906-stock-footage-cinemagraph-loop-clouds-move-passed-the-sun-and-through-forest-motion-photo.html?src=search/kTmTxBVgebz5F_PGINyHaw:1:40/3p
+  https://www.shutterstock.com/video/clip-14868547-stock-footage-cinemagraph-loop-lofoten-beach-in-norway-motion-photo.html?src=search/eXBcS-TBy1YEFzvr-IhYMA:1:19/gg
+  -->
 </body>
 
 </html>

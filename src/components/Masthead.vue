@@ -1,14 +1,15 @@
 <template>
-  <div class="masthead">
-      <div class="heading">
-          Acme Dev Team
-      </div>
-      <div class="nav">
-          <span class="nav-item nav-row-new" @click="onAddRow">+ Add row</span>
-          <!-- TODO: Disable "Add card" if there are no rows! -->
-          <span class="nav-item nav-task-new action-task-new" @click="onAddCard">+ Add card</span>
-      </div>
-  </div>
+  <header>
+    <h1 class="zbr-heading">
+      Acme Dev Team
+    </h1>
+    <nav class="zbr-nav">
+      <ul>
+        <li class="zbr-nav-item" @click="onAddRow">+ Add row</li>
+        <li v-if="hasRows" class="zbr-nav-item" @click="onAddCard">+ Add card</li>
+      </ul>
+    </nav>
+  </header>
 </template>
 
 <script>
@@ -16,6 +17,7 @@ import EventBus from './EventBus'
 
 export default {
   name: 'masthead',
+  props: ['hasRows'],
   methods: {
     onAddCard: function () {
       EventBus.$emit('masthead-add-card', true)
@@ -27,33 +29,38 @@ export default {
 }
 </script>
 
-<style scoped>
-  .masthead {
-      width: 371px; /*248px; /* 299px; /* 229px if there is only 1 button */;
+<style>
+  .zbr-heading {
+    background-color: black;
+    color: white;
+    font-size: 26px;
+    padding: 5px 8px 4px;
+    font-weight: bold;
+    display: inline-block;
+    margin: 0px 0 15px;
   }
-  .heading {
-      background-color: black;
-      color: white;
-      font-size: 26px;
-      padding: 5px 8px 4px;
-      font-weight: bold;
-      display: inline-block;
-      margin: 0px 0 15px;
+  .zbr-nav {
+    display: inline;
+    position: relative;
+    top: -13px;
   }
-  .nav {
-      padding-top: 2px;
-      float: right;
+  .zbr-nav ul {
+    display: inline;
+    padding: 0;
   }
-  .nav-item {
-      background-color: #CCC; /* #209cee #ccc */
-      padding: 4px 5px 4px 4px;
-      font-size: 13px;
-      cursor: pointer;
-      margin-left: 3px;
-      border-radius: 2px;
-      color: #000;
+  li.zbr-nav-item {
+    display: inline;
   }
-  .nav-item:hover {
-      background-color: #BBB; /* #1190e3 bbb rgba(221, 221, 221, 0.7)*/
+  .zbr-nav-item {
+    background-color: #CCC;   /* Alternate values: #209cee, #ccc */
+    padding: 4px 5px 4px 4px;
+    font-size: 13px;
+    cursor: pointer;
+    margin-left: 3px;
+    border-radius: 2px;
+    color: #000;
+  }
+  .zbr-nav-item:hover {
+    background-color: #BBB;
   }
 </style>

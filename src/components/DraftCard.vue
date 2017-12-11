@@ -1,10 +1,10 @@
 <template>
-  <div class="draft-card-wrapper" @keyup.ctrl.enter="onSave">
-    <div class="task-new" :contenteditable="true" @input="onInput" v-focus></div>
-    <div class="button-container">
-      <span class="button btn-cancel" title="[Esc]" @click="onCancel"
+  <div class="zen-draft-card" @keyup.ctrl.enter="onSave">
+    <div class="zdc-title" :contenteditable="true" @input="onInput" v-focus></div>
+    <div class="zdc-button-container">
+      <span class="zdc-button zdc-cancel" title="[Esc]" @click="onCancel"
           :data-row-id="rowId" :data-col-id="colId">Cancel</span>
-      <span class="button btn-save" title="[CTRL + Enter]" @click="onSave">Save</span>
+      <span class="zdc-button zdc-save" title="[CTRL + Enter]" @click="onSave">Save</span>
     </div>
   </div>
 </template>
@@ -26,32 +26,32 @@ export default {
   },
   data () {
     return {
-      label: ''
+      title: ''
     }
   },
   methods: {
     onInput: function (event) {
-      this.label = event.target.innerText
+      this.title = event.target.innerText
     },
     onCancel: function (event) {
-      console.log('onCancel', this.rowId, this.colId)
-      // let el = event.srcElement
-      let rowId = this.rowId // el.dataset['rowId']
-      let colId = this.colId // el.dataset['colId']
+      let rowId = this.rowId
+      let colId = this.colId
       let payload = {
         rowId: rowId,
         colId: colId
       }
+      console.log('draft-card:draft-card-cancel', this.rowId, this.colId)
       EventBus.$emit('draft-card-cancel', payload)
     },
     onSave: function (event) {
-      if (this.label) {
+      if (this.title) {
         let cardToSave = {
-          label: this.label,
+          title: this.title,
           rowId: this.rowId,
           colId: this.colId,
-          myOrder: this.numCards + 1  // XXX: Do server-side
+          position: this.numCards + 1  // XXX: More robust to do this server-side
         }
+        console.log('draft-card:draft-card-save')
         EventBus.$emit('draft-card-save', cardToSave)
       } else {
         this.onCancel()
@@ -68,65 +68,40 @@ export default {
 }
 </script>
 
-<style scoped>
-  [contenteditable] {
-      z-index: 100;
+<style>
+  .zdc-title[contenteditable] {
+    color: #000;
+    background-color: #e8f5fd; /* Alternate values: #fffbdd, #f5f3d5 */
+    white-space: pre-wrap;
+    padding: 4px;
+    margin-bottom: 5px;
+    margin-top: 6px;
+    border-radius: 2px;
 
-      white-space: pre-wrap;
-      background-color: #e8f5fd; /* #fffbdd #f5f3d5 */
-      /*
-      color: springgreen;
-      font-family: 'Courier New', Courier, monospace;
-      */
-
-      padding: 4px; /*3px 6px 4px 4px;*/
-      margin-bottom: 5px;
-      margin-top: 6px;
-      /* More intuitive without cursor: move */
-
-      border-radius: 2px;
+    /* ZDC is more intuitive without cursor: move */
   }
 
-  [contenteditable]:hover {
-      background-color: #d6edfc !important;
-
-      padding: 4px !important;
-      margin-bottom: 5px !important;
-      margin-top: 6px !important;
+  .zdc-title[contenteditable]:hover {
+    background-color: #d6edfc !important;
   }
 
   /* BUTTONS ******************************************************************/
 
-  .button-container {
-      align-content: right;
-      font-size: 13px;
-      float: right;
-      margin-top: 3px;
-      margin-bottom: 4px;
+  .zdc-button-container {
+    float: right;
+    /*align-content: right;*/
+    font-size: 13px;
+    margin-top: 3px;
+    margin-bottom: 4px;
   }
 
-  .button {
-      font-weight: normal;
-      font-size: 13px;
-      background-color: #ddd;
-      padding: 3px 5px 3px 5px;
-      cursor: pointer;
-      border-radius: 2px;
-  }
-
-  .btn-save {
-    background-color: #CCC; /* #5de48c; */
-    color: #000;
-  }
-  .btn-save:hover {
-      background-color: #BBB; /* #31dd6d; */
-  }
-
-  .btn-cancel {
-    background-color: #CCC;
-    color: #000;
-  }
-  .btn-cancel:hover {
-      background-color: #BBB;
+  .zdc-button {
+    font-weight: normal;
+    font-size: 13px;
+    background-color: #CCC; /* Alternate value: #5de48c; */
+    color: #000; /* Alternate value: #31dd6d; */
+    padding: 3px 5px 3px 5px;
+    cursor: pointer;
+    border-radius: 2px;
   }
 </style>

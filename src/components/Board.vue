@@ -1,46 +1,49 @@
 <!--
-This is the top-level component. It's responsible for socketio.
+This component is responsible for socketio.
 -->
 <template>
-  <div class="wrapper">
-    <masthead />
+  <div class="zbr-container">
+    <masthead :hasRows="rows.length" />
     <!-- Use of tables *is* appropiate here... it's tabular data! -->
     <!-- @keyup.meta.enter doesn't work https://github.com/vuejs/vue/issues/1813 -->
-    <table class="main" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
+    <table class="zbr-main" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
       <!-- Header row -->
       <tr>
-        <td class="cell-0">
+        <td class="zbr-col-empty">
         </td>
-        <th class="col col-todo">To do
+        <th class="zbr-col-heading zbr-todo">To do
         </th>
-        <th class="col col-blocked">Blocked<!-- <span class="fa fa-exclamation-triangle">--></span>
+        <th class="zbr-col-heading zbr-blocked">Blocked</span>
         </th>
-        <th class="col col-inprogress">In progress
+        <th class="zbr-col-heading zbr-inprogress">In progress
         </th>
-        <th class="col col-done">Done <span class="fa fa-check-circle"></span>
+        <th class="zbr-col-heading zbr-done">Done <span class="fa fa-check-circle"></span>
         </th>
       </tr>
 
       <!-- @card-drag-end is propagated up from Cell component -->
       <row v-for="row in rows" :row="row" key="row.id" @card-drag-end="cardDragEnd" />
+
+      <tr v-if="rows.length === 0">
+        <td colspan="5" class="zbr-table-bg">
+            <div class="zbr-no-rows">To create a row, click the "+ Add row" button</div>
+        </td>
+      </tr>
     </table>
-    <div v-if="rows.length === 0" class="no-rows">To create a row, click the "+ Add row" button</div>
 
     <cardEditor />
     <row-editor />
-    <!-- <archive :archivedRows='archivedRows' /> -->
+    <!-- TODO: <archive :archivedRows='archivedRows' /> -->
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-// import VideoBg from 'vue-videobg'
-// import VueVideoBackground from './misc/VueVideoBackground'
 import masthead from './Masthead'
 import row from './Row'
 import cardEditor from './modals/CardEditor'
 import RowEditor from './modals/RowEditor'
-import Archive from './Archive'
+import Archive from './XArchive'
 import EventBus from './EventBus'
 import VueSocketio from 'vue-socket.io'
 
@@ -48,13 +51,12 @@ import VueSocketio from 'vue-socket.io'
 let apiUrl = process.env.API_URL || window.location.origin
 Vue.use(VueSocketio, apiUrl)
 
-// Vue.component('video-bg', VueVideoBackground)
-
 export default {
   name: 'board',
   components: {
     masthead, row, cardEditor, RowEditor, Archive
   },
+  props: ['disableFetch'],  // For unit testing only
   data () {
     return {
       rows: [],
@@ -64,9 +66,6 @@ export default {
   sockets: {
     connect: function () {
       console.log('socket connected')
-    },
-    customEmit: function (val) {
-      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
     },
     boardRefresh: function (rows) {
       console.log('boardRefresh', rows)
@@ -84,24 +83,26 @@ export default {
   },
   created: function () {
     let self = this
-    // TODO: Polyfill for fetch
-    fetch(process.env.API_URL + '/api/rows/deep').then(function (response) {
-      if (!response.ok) {
-        throw new Error(response.statusText)
-      }
-      response.json().then(function (json) {
-        self.rows = json
-        self.initArchive()
+    if (!this.disableFetch) {
+      // XXX: Polyfill for fetch
+      fetch(process.env.API_URL + '/api/rows/deep').then(function (response) {
+        if (!response.ok) {
+          throw new Error(response.statusText)
+        }
+        response.json().then(function (json) {
+          self.rows = json
+          self.initArchive()
+        })
+      }).catch(function (err) {
+        console.error(err)
+        alert('Sorry, something went wrong\n\n' + err)
       })
-    }).catch(function (err) {
-      console.error(err)
-      alert('Sorry, something went wrong\n\n' + err)  // TODO: Improve
-    })
+    }
   },
   methods: {
     cardDragEnd: function (data) {
       console.log('board:card-drag-end', data)
-      this.$socket.emit('task:move', data)
+      this.$socket.emit('card:move', data)
     },
     onCancel: function (data) {
       console.log('board:onCancel')
@@ -116,14 +117,16 @@ export default {
     initArchive: function () {
       let self = this
       fetch(process.env.API_URL + '/api/archive/rows/deep').then(function (response) {
-        if (response.status !== 200) throw Error(response.statusText)
+        if (response.status !== 200) {
+          throw Error(response.statusText)
+        }
         response.json().then(function (json) {
           self.archivedRows = json
           console.log('Archive', json)
         })
       }).catch(function (err) {
         console.error(err)
-        alert('Couldn\'t load archive\n\n' + err)  // TODO: Improve
+        alert('Couldn\'t load archive\n\n' + err)
       })
     }
   },
@@ -136,46 +139,64 @@ export default {
     EventBus.$on('draft-card-save', function (draftCard) {
       console.log('draft-card-save', draftCard)
       // XXX: Call API from DraftCard component instead!
-      this.$socket.emit('task:create', draftCard)
+      this.$socket.emit('card:create', draftCard)
     })
   }
 }
 </script>
 
-<style scoped>
-  .wrapper {
+<style>
+  /** Zenboard container, main table, etc */
+
+  .zbr-container {
     margin: 10px;
   }
-  table {
-      width: 100%;
-      background-color:rgba(0, 0, 0, 0);
-      /*border: 1px dotted #ABEBC6;*/
-      border-collapse: collapse;
+
+  .zbr-main {
+    width: 100%;
+    border-collapse: collapse;
+    color: #FFF;
   }
-  /* */
   td, th {
-      border: 1px dotted #239B56;
-      padding: 5px 7px 4px;
-      vertical-align: top;
+    border: 1px dotted #999;
+    padding: 5px 7px 4px;
+    vertical-align: top;
   }
   th {
-      /*background-color: #1D8348;*/
-      color: white;
-  }
-  .cell-0 {
-      border: none;
-      width: 14%;
-  }
-  .col {
-      width: 21.5%;
-      font-weight: normal;
-      font-family: 'Helvetica Neue', sans-serif;
-      cursor: default;
+    color: #FFF;
   }
 
-  .no-rows {
+  .zbr-col-empty {
+    border: none;
+    width: 14%;
+  }
+  .zbr-col-heading {
+    width: 21.5%;
+    font-weight: normal;
+    font-family: 'Helvetica Neue', sans-serif;
+    cursor: default;
+  }
+
+  .zbr-todo {
+    color: #a0d5f8;
+  }
+  .zbr-blocked {
+    color: #ff8957;
+  }
+  .zbr-inprogress {
+    color: #ffdd57;
+  }
+  .zbr-done {
+    color: #23d160;
+  }
+
+  .zbr-table-bg {
+    background: rgba(0,0,0,0.3);
+  }
+
+  .zbr-no-rows {
     color: #fff;
-    margin-top: 15px;
+    margin: 15px;
     text-align: center;
   }
 

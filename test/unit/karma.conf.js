@@ -14,7 +14,9 @@ module.exports = function (config) {
     browsers: ['PhantomJS'],
     frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
     reporters: ['spec', 'coverage'],
-    files: ['./index.js'],
+    // es6-shim added
+    // https://stackoverflow.com/questions/41729482/phantomjs-cant-find-variable-map
+    files: ['../../node_modules/es6-shim/es6-shim.js', './index.js'],
     preprocessors: {
       './index.js': ['webpack', 'sourcemap']
     },

@@ -4,7 +4,7 @@ This component is reponsible for dragging and dropping cards.
 <template>
   <draggable element="td" :list="cell.cards" class="drag-area" :options="dragOptions"
       :data-col-id="cell.colId" :data-row-id="rowId"
-      @end="onEnd" @update="onUpdate" @change="onChange" @sort="onSort">
+      @end="onEnd" @sort="onSort">
     <card v-for="card in cell.cards" :card="card" key="card.id" />
     <draft-card v-if="hasDraftCard" :rowId="rowId" :colId="cell.colId" :numCards="cell.cards.length"/>
   </draggable>
@@ -25,31 +25,22 @@ export default {
     dragOptions () {
       return {
         group: 'cards',
-        ghostClass: 'ghost',
-        // animation: 0,
+        ghostClass: 'zca-ghost',
         disabled: this.contentEditable // Dragging draft card is currently wonky
       }
     }
   },
   methods: {
+    // onEnd more appropriate than onMove. (onMove fires even if item isn't dropped).
     onEnd (evt) {
-      console.log('End (drag)') // , evt)
+      console.log('onEnd (drag)') // , evt)
       // TODO: Do nothing if user has pressed "escape"
       this.$emit('card-drag-end', {
         id: evt.clone.dataset.cardId, // cardId
         rowId: evt.to.dataset.rowId,  // toRowId
         colId: evt.to.dataset.colId,  // toColId
-        myOrder: evt.newIndex + 1     // toPosition
+        position: evt.newIndex + 1    // toPosition
       })
-    },
-    onUpdate () {
-      // console.log('Update!')
-    },
-    onChange () {
-      // console.log('Change!')
-    },
-    onMove () {
-      // No, called even if item isn't dropped
     },
     onSort () {
       // Called once for item being removed, and once for item being added?
@@ -59,21 +50,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  /* td styles are defined in the Board component (along with th) */
-
-  .row-heading {
-      text-align: left;
-      color: black;
-      padding-top: 12px;
-      padding-bottom: 12px;
-  }
-  .row-label {
-      cursor: pointer;
-  }
-
-  .drag-area {
-       min-height: 40px;
-  }
-</style>

@@ -1,6 +1,6 @@
 <template>
-  <div :class="{task: true, urgent: isUrgent}" :data-card-id="card.id"
-      v-on:click="editDetails" :title="'id: ' + card.id">{{card.label}}</div>
+  <div :class="{'zbr-card': true, 'zca-urgent': isUrgent}" :data-card-id="card.id"
+      v-on:click="editDetails" :title="'id: ' + card.id">{{card.title}}</div>
 </template>
 
 <script>
@@ -11,16 +11,16 @@ export default {
   props: ['card'],
   methods: {
     editDetails: function () {
-      console.log('editDetails')
+      console.log('card:editDetails')
       EventBus.$emit('card-edit-details', this.card.id)
     }
   },
   computed: {
     isUrgent: function () {
-      return this.card.label.indexOf('!!') > 0
+      return this.card.title.indexOf('!!') > 0
     },
-    filteredLabel: function () {
-      return this.card.label
+    filteredTitle: function () {
+      return this.card.title
       /*
       .replace('#social', "<span class='hashtag'>#social</span>")
       .replace('#images', "<span class='hashtag'>#images</span>")
@@ -40,36 +40,33 @@ export default {
 }
 </script>
 
-<style scoped>
-  .task {
-    background-color: #D5F5E3;
+<style>
+  .zbr-card {
+    background-color: #FFF;
     padding: 4px 4px 4px 5px;
     margin-top: 3px;
     margin-bottom: 6px;
     cursor: pointer;
     border-radius: 2px;
+    color: #000;
   }
-  div.task:hover {
-      background-color: rgba(213, 245, 227, 0.7);
-      padding: 4px 4px 4px 5px;
-      margin-top: 3px;
-      margin-bottom: 6px;
-      /* "Pointer" icon is relevant to click (for details) and move.
-       * "Move" icon is only relevant to move. */
-      cursor: pointer;
+  .zbr-card:hover {
+    background-color: #EEE;
+    /* Why the "Pointer" icon and not "Move" icon? Pointer icon is relevant to
+     * click (for details) and move. "Move" icon is only relevant to move. */
+    cursor: pointer;
   }
 
   /* ghost class used by Vue.Draggable */
-  .ghost {
+  .zca-ghost {
     opacity: .2;
-    /*background: #C8EBFB;*/
   }
 
-  .urgent {
+  .zca-urgent {
     background-color: #ff3860 !important;
-    color: white;
+    color: #FFF;
   }
-  .urgent:hover {
-    color: #ffe9ed !important; /* #e9002f */
+  .zca-urgent:hover {
+    color: #ffe9ed !important; /* Alternate value: #e9002f */
   }
 </style>
