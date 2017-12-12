@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <board/>
+    <board />
     <footer class="zen-footer">
-      <a href="https://github.com/matthumphreys/zenboard"><span class="zfo-logo-dark">Zen</span><span class="zfo-logo-light">board</span></a><span class="zfo-version">v0.1</span>
+      <a href="https://github.com/mhumph/zenboard"><span class="zfo-logo-dark">Zen</span><span class="zfo-logo-light">board</span></a><span class="zfo-version">v0.1</span>
     </footer>
   </div>
 </template>

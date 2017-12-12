@@ -1,6 +1,8 @@
-# vue-webpack
+# zenboard-vue
 
-> A Vue.js project
+This is the Vue.js UI for [Zenboard][https://github.com/mhumph/zenboard].
+
+It's Vue.js project created using vue-cli, vue-loader and webpack.
 
 ## Build Setup
 
@@ -29,7 +31,7 @@ npm test
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
-# Essential Links
+# Essential Vue.js Links
 
 <ul>
   <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>

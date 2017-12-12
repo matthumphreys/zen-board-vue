@@ -11,8 +11,8 @@ module.exports = {
     browser
       .url(devServer)
       .waitForElementVisible('#app', 5000)
-      .assert.visible('table.main')
-      .assert.containsText('.heading', 'Acme Dev Team')
+      .assert.visible('.zbr-main')
+      .assert.containsText('.zbr-heading', 'Acme Dev Team')
       .assert.elementCount('video', 1)
       .end()
   },
@@ -22,27 +22,27 @@ module.exports = {
 
     browser
       .url(devServer)
-      .assert.elementNotPresent('.row-label[data-is-test-data=true]')
+      .assert.elementNotPresent('.zro-title[data-is-test-data=true]')
 
-      .click('.nav-row-new')
-      .waitForElementVisible('input.tdc-label', 1000)
-      .assert.visible('input.tdc-label')
-      .assert.visible('.tdc-position select')
-      .assert.visible('textarea.tdc-description')
+      .click('.zbr-add-row')
+      .waitForElementVisible('.zfo-title', 1000)
+      .assert.visible('.zfo-title input')
+      .assert.visible('.zre-position select')
+      .assert.visible('.zfo-description textarea')
 
-      .setValue('input.tdc-label', '0F65u28Rc66ORYII')
+      .setValue('.zfo-title input', '0F65u28Rc66ORYII')
 
-      .click('.zre-button-save')
-      .waitForElementNotPresent('input.tdc-label', 1000)
-      .waitForElementVisible('.row-label[data-is-test-data=true]', 1000)
+      .click('.zen-row-editor .zfo-save')
+      .waitForElementNotPresent('.zfo-title input', 1000)
+      .waitForElementVisible('.zro-title[data-is-test-data=true]', 1000)
 
       // Remove test data
       .url('http://localhost:3001/api/rows/delete-test-data')
 
       // Check test data removed successfuly
       .url(devServer)
-      .waitForElementVisible('.row-label', 1000)
-      .assert.elementNotPresent('.row-label[data-is-test-data=true]')
+      .waitForElementVisible('.zro-title', 1000)
+      .assert.elementNotPresent('.zro-title[data-is-test-data=true]')
       .end()
   }
 }

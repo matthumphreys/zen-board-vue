@@ -3,7 +3,7 @@ This component is responsible for socketio.
 -->
 <template>
   <div class="zbr-container">
-    <masthead :hasRows="rows.length" />
+    <masthead :hasRows="rows.length" :title="title" />
     <!-- Use of tables *is* appropiate here... it's tabular data! -->
     <!-- @keyup.meta.enter doesn't work https://github.com/vuejs/vue/issues/1813 -->
     <table class="zbr-main" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
@@ -60,7 +60,8 @@ export default {
   data () {
     return {
       rows: [],
-      archivedRows: []
+      archivedRows: [],
+      title: ''
     }
   },
   sockets: {
@@ -70,6 +71,10 @@ export default {
     boardRefresh: function (rows) {
       console.log('boardRefresh', rows)
       this.rows = rows
+    },
+    boardTitleLoaded: function (boardTitle) {
+      console.log('boardTitleLoaded')
+      EventBus.$emit('board-title-loaded', boardTitle)
     }
     // TODO: archiveRefresh
   },
@@ -91,7 +96,7 @@ export default {
         }
         response.json().then(function (json) {
           self.rows = json
-          self.initArchive()
+          self.loadTitle()
         })
       }).catch(function (err) {
         console.error(err)
@@ -113,6 +118,18 @@ export default {
 
       // console.log('board:onSave')
       // EventBus.$emit('global-save', true)
+    },
+    loadTitle: function () {
+      let self = this
+      fetch(process.env.API_URL + '/api/board/').then(function (response) {
+        if (response.status === 200) {
+          response.json().then(function (board) {
+            self.title = board.title
+            document.title = board.title
+          })
+        }
+        self.initArchive()
+      })
     },
     initArchive: function () {
       let self = this

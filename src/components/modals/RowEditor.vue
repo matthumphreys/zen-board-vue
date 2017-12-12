@@ -117,7 +117,7 @@ export default {
       this.row = false
     },
     onCancelIfClickOutside: function (ev) {
-      if (ev.srcElement.classList.contains('template-modal')) {
+      if (ev.srcElement.classList.contains('zen-row-editor')) {
         // XXX: Use this.methods.onCancel() instead?
         EventBus.$emit('global-cancel', ev)
       }

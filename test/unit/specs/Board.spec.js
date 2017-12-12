@@ -15,14 +15,14 @@ describe('Board.vue', () => {
   it('should render column headings', () => {
     // const Constructor = Vue.extend(Board)
     // const vm = new Constructor({disableFetch: true}).$mount()
-    expect(vm.$el.querySelector('div table.main tr th.col-todo').textContent)
+    expect(vm.$el.querySelector('.zbr-main tr .zbr-todo').textContent)
       .to.have.string('To do')
   })
 
   it('should render "no rows" message when there\'s no rows', () => {
     // const Constructor = Vue.extend(Board)
     // const vm = new Constructor({disableFetch: true}).$mount()
-    expect(vm.$el.querySelector('.no-rows').textContent)
+    expect(vm.$el.querySelector('.zbr-no-rows').textContent)
       .to.have.string('To create a row')
   })
 
@@ -33,7 +33,7 @@ describe('Board.vue', () => {
       id: 1, title: 'Foo', position: 1
     }]
     Vue.nextTick(() => {
-      should.not.exist(vm.$el.querySelector('.no-rows'))
+      should.not.exist(vm.$el.querySelector('.zbr-no-rows'))
       done()
     })
   })

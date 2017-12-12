@@ -66,7 +66,7 @@ export default {
       this.card = false
     },
     onCancelIfClickOutside: function (ev) {
-      if (ev.srcElement.classList.contains('template-modal')) {
+      if (ev.srcElement.classList.contains('zen-card-editor')) {
         // XXX: Use this.methods.onCancel() instead?
         EventBus.$emit('global-cancel', ev)
       }

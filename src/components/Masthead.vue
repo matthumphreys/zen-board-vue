@@ -1,12 +1,14 @@
 <template>
   <header>
-    <h1 class="zbr-heading">
-      Acme Dev Team
-    </h1>
+    <!-- Click to edit, ESC to cancel, ENTER to save, blur to save -->
+    <h1 v-if="true" class="zbr-heading" :contenteditable="isTitleBeingEdited"
+        @click="editTitle" @keydown.enter="saveTitleOnEnter" @blur="saveTitle"
+        @keyup.esc="cancelTitle">{{title}}</h1>
+
     <nav class="zbr-nav">
       <ul>
-        <li class="zbr-nav-item" @click="onAddRow">+ Add row</li>
-        <li v-if="hasRows" class="zbr-nav-item" @click="onAddCard">+ Add card</li>
+        <li class="zbr-nav-item zbr-add-row" @click="addRow">+ Add row</li>
+        <li v-if="hasRows" class="zbr-nav-item zbr-add-card" @click="addCard">+ Add card</li>
       </ul>
     </nav>
   </header>
@@ -17,14 +19,62 @@ import EventBus from './EventBus'
 
 export default {
   name: 'masthead',
-  props: ['hasRows'],
+  props: ['hasRows', 'title'],
+  data () {
+    return {
+      isTitleBeingEdited: false
+    }
+  },
   methods: {
-    onAddCard: function () {
+    addCard: function () {
       EventBus.$emit('masthead-add-card', true)
     },
-    onAddRow: function () {
+    addRow: function () {
       EventBus.$emit('row-edit-details', 'new-row')
+    },
+    editTitle: function () {
+      this.isTitleBeingEdited = true
+      // Focus needs setTimeout https://stackoverflow.com/a/37162116
+      setTimeout(() => { this.$el.querySelector('.zbr-heading').focus() }, 0)
+    },
+    saveTitle: function () {
+      let title = this.$el.querySelector('.zbr-heading').textContent
+      fetch(process.env.API_URL + '/api/board/', {
+        method: 'post',
+        headers: new Headers({'Content-Type': 'application/json'}),
+        body: JSON.stringify({title: title})
+      }).catch(function (err) {
+        console.error(err)
+        alert('Sorry, something went wrong\n\n' + err)
+      })
+      this.isTitleBeingEdited = false
+    },
+    cancelTitle: function () {
+      this.isTitleBeingEdited = false
+      this.$el.querySelector('.zbr-heading').innerHTML = this.title
+    },
+    saveTitleOnEnter: function (ev) {
+      ev.preventDefault()
+      this.saveTitle()
+    },
+    filterKey: function (ev) {
+      console.log('filterKey', ev.key)
+      if (ev.key === 'Enter') {
+        console.log('hit')
+        ev.preventDefault()
+      }
     }
+  },
+  mounted () {
+    let self = this
+    EventBus.$on('board-title-loaded', function (boardTitle) {
+      console.log('masthead: title loaded')
+      self.title = boardTitle
+    })
+    EventBus.$on('global-cancel', function () {
+      console.log('masthead: cancel')
+      self.cancelTitle()
+    })
   }
 }
 </script>
@@ -38,6 +88,7 @@ export default {
     font-weight: bold;
     display: inline-block;
     margin: 0px 0 15px;
+    cursor: pointer;
   }
   .zbr-nav {
     display: inline;
