@@ -185,10 +185,10 @@ export default {
 
   .zbr-col-empty {
     border: none;
-    width: 14%;
+    width: 20%;
   }
   .zbr-col-heading {
-    width: 21.5%;
+    width: 20%;
     font-weight: normal;
     font-family: 'Helvetica Neue', sans-serif;
     cursor: default;

@@ -103,7 +103,7 @@ export default {
     display: inline;
   }
   .zbr-nav-item {
-    background-color: #CCC;   /* Alternate values: #209cee, #ccc */
+    background-color: #BBB;   /* Alternate values: #209cee, #ccc */
     padding: 4px 5px 4px 4px;
     font-size: 13px;
     cursor: pointer;
@@ -112,6 +112,6 @@ export default {
     color: #000;
   }
   .zbr-nav-item:hover {
-    background-color: #BBB;
+    background-color: #AAA;
   }
 </style>

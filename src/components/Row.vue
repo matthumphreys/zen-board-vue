@@ -4,7 +4,10 @@ Each row can be thought of as a "wave" of work.
 <template>
   <tr class="zbr-row zbr-table-bg" @mouseover="hover = true" @mouseleave="hover = false">
     <th>
-      <div class="zro-title" @click="onClick" :data-is-test-data="row.title === '0F65u28Rc66ORYII'">{{row.title}}</div>
+      <div class="zro-title-container">
+        <div class="zro-title" @click="onClick" :data-is-test-data="row.title === '0F65u28Rc66ORYII'">{{row.title}}</div>
+      </div>
+      <row-props :description="row.description" />
       <transition name="zro-fade">
         <div v-if="hover" class="zro-button" @click="addDraftCard" disabled="hasDraftCard">+&nbsp;Add&nbsp;card</div>
       </transition>
@@ -19,12 +22,13 @@ Each row can be thought of as a "wave" of work.
 
 <script>
 import cell from './Cell'
+import rowProps from './RowProps'
 import EventBus from './EventBus'
 
 export default {
   name: 'row',
   components: {
-    cell
+    cell, rowProps
   },
   props: ['row'],
   data () {
@@ -81,26 +85,42 @@ export default {
     text-align: left;
     font-weight: normal;
     font-family: 'Helvetica Neue', sans-serif;
+    padding-bottom: 13px;
+  }
+
+  .zro-title-container {
+    margin: 7px 3px 2px;
   }
 
   .zro-title {
     margin-top: 7px;
     cursor: pointer;
+
+    display: inline;
+    background-color: #2260c5; /* Alternate values: #1088d6, #2568d6 */
+    padding: 3px 0px;
+    box-shadow: 5px 0 0 #2260c5, -5px 0 0 #2260c5;
+  }
+
+  .zro-description {
+    margin-top: 10px;
+    font-family: 'HelveticaNeue-Light', sans-serif;
   }
 
   .zro-button {
-      font-weight: normal;
-      font-size: 13px;
-      background-color: #CCC;
-      color: #000;
-      padding: 4px 5px 4px 4px;
-      margin-top: 6px;
-      display: inline-block;
-      cursor: pointer;
-      border-radius: 2px;
+    font-weight: normal;
+    font-size: 13px;
+    background-color: #BBB;
+    color: #000;
+    padding: 4px 5px 4px 4px;
+    margin-top: 6px;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 2px;
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue', sans-serif;
   }
   .zro-button:hover {
-      background-color: #BBB;
+    background-color: #AAA;
   }
 
   /** TRANSITIONS *************************************************************/

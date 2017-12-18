@@ -2,7 +2,7 @@
   <div id="app">
     <board />
     <footer class="zen-footer">
-      <a href="https://github.com/mhumph/zenboard"><span class="zfo-logo-dark">Zen</span><span class="zfo-logo-light">board</span></a><span class="zfo-version">v0.1</span>
+      <a href="https://github.com/mhumph/zenboard"><span class="zfo-logo-dark">Zen</span><span class="zfo-logo-light">board</span></a><span class="zfo-version">v0.3</span>
     </footer>
   </div>
 </template>
@@ -127,11 +127,14 @@ export default {
     padding: 5px 20px;
   }
   .zfo-button:hover {
-    background-color: #eee;
+    background-color: #ccc;
   }
   .zfo-save {
     background-color: #209cee !important; /* Alternate value: #5de48c */
     color: #FFF;
+  }
+  .zfo-save:hover {
+    background-color: #1190e3 !important;
   }
   .zfo-cancel {
     float: left;
