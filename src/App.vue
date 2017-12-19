@@ -27,7 +27,7 @@ export default {
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
 
-  	font-family: 'HelveticaNeue-Light', 'Helvetica Neue', sans-serif;
+  	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   body {
     margin: 0;
@@ -51,11 +51,12 @@ export default {
   }
   .zfo-logo-dark {
     color: #157d39; /* Alternatively, #38761d */
-    font-family: 'Helvetica Neue', sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   .zfo-logo-light {
     color: rgba(21,125,57,0.5);
     margin-left: 1px;
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   .zfo-version {
     color: #FFF;
@@ -84,7 +85,7 @@ export default {
     padding: 15px 19px 15px 13px;
     background-color: #f9f9f9; /* #d5f5f3; */
     border: 1px solid #CCC;
-    font-family: 'Helvetica Neue', sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
     border-radius: 4px;
   }
@@ -125,6 +126,7 @@ export default {
     font-size: 13px;
     width: 80px;
     padding: 5px 20px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   .zfo-button:hover {
     background-color: #ccc;

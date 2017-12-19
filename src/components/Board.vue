@@ -182,6 +182,9 @@ export default {
   th {
     color: #FFF;
   }
+  .zbr-col-heading {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
 
   .zbr-col-empty {
     border: none;
@@ -189,8 +192,8 @@ export default {
   }
   .zbr-col-heading {
     width: 20%;
-    font-weight: normal;
-    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     cursor: default;
   }
 

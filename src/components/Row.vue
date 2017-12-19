@@ -84,7 +84,7 @@ export default {
   .zbr-row th {
     text-align: left;
     font-weight: normal;
-    font-family: 'Helvetica Neue', sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     padding-bottom: 13px;
   }
 
@@ -95,16 +95,14 @@ export default {
   .zro-title {
     margin-top: 7px;
     cursor: pointer;
+    font-weight: bold;
 
+    /*
     display: inline;
-    background-color: #2260c5; /* Alternate values: #1088d6, #2568d6 */
+    background-color: #2260c5;
     padding: 3px 0px;
     box-shadow: 5px 0 0 #2260c5, -5px 0 0 #2260c5;
-  }
-
-  .zro-description {
-    margin-top: 10px;
-    font-family: 'HelveticaNeue-Light', sans-serif;
+    */
   }
 
   .zro-button {
@@ -113,11 +111,11 @@ export default {
     background-color: #BBB;
     color: #000;
     padding: 4px 5px 4px 4px;
-    margin-top: 6px;
+    margin-top: 8px;
     display: inline-block;
     cursor: pointer;
     border-radius: 2px;
-    font-family: 'HelveticaNeue-Light', 'Helvetica Neue', sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   .zro-button:hover {
     background-color: #AAA;

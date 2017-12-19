@@ -5,8 +5,8 @@ Row properties. An example property is, "Goal: +5% revenue"
     <!-- Having separate "name" and "val" columns is neater but less flexible. Flexible wins. -->
     <div v-if="description" class="zro-props">
       <div v-for="(item) in rowProps" class="zro-prop">
-        <span v-if="item.name" class="zro-prop-name">{{item.name}}:</span>
-        {{item.val}}
+        <span class="vro-label"><span v-if="item.name" class="zro-prop-name">{{item.name}}</span>
+        {{item.val}}</span>
       </div>
     </div>
 </template>
@@ -30,7 +30,7 @@ export default {
           item = this.lineToNameVal(line, 'ETA', 3)
         }
         if (line.startsWith('* Ongoing')) {
-          item = {val: 'Ongoing'}
+          item = {name: 'Ongoing'}
         }
 
         if (item) {
@@ -54,16 +54,32 @@ export default {
 </script>
 
 <style>
-  .zro-props {
+  div.zro-props {
+    /*margin-top: 4px;*/
+    margin-left: 3px;
+    font-size: 14px;
+  }
+  div.zro-prop {
+    padding-top: 12px;
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  .zro-prop-name {
+    display: inline;
+    background-color: #2260c5; /* Alternate values: #1088d6, #2568d6 */
+    padding: 1px 0px 2px;
+    box-shadow: 5px 0 0 #2260c5, -4px 0 0 #2260c5;
+
+    font-weight: bold;
+    margin-right: 5px;
+  }
+
+  /*ul.zro-props {
     margin-top: 4px;
     margin-left: 3px;
     font-size: 14px;
   }
-  .zro-prop {
+  li.zro-prop {
     padding-top: 12px;
-    font-family: 'HelveticaNeue-Light', sans-serif;
-  }
-  .zro-prop-name {
-    font-weight: bold;
-  }
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }*/
 </style>

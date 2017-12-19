@@ -77,7 +77,7 @@ export default {
   .history-col {
       width: 21.5%;
       font-weight: normal;
-      font-family: 'Helvetica Neue', sans-serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       cursor: default;
   }
 </style>
