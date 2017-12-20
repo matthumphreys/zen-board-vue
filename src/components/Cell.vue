@@ -14,6 +14,7 @@ This component is reponsible for dragging and dropping cards.
 import draggable from 'vuedraggable'
 import card from './Card'
 import draftCard from './DraftCard'
+import EventBus from './EventBus'
 
 export default {
   name: 'cell',
@@ -35,12 +36,14 @@ export default {
     onEnd (evt) {
       console.log('onEnd (drag)') // , evt)
       // TODO: Do nothing if user has pressed "escape"
-      this.$emit('card-drag-end', {
+      let payload = {
         id: evt.clone.dataset.cardId, // cardId
         rowId: evt.to.dataset.rowId,  // toRowId
         colId: evt.to.dataset.colId,  // toColId
         position: evt.newIndex + 1    // toPosition
-      })
+      }
+      this.$emit('card-drag-end', payload)  // XXX: Use EventBus instead
+      EventBus.$emit('card-drag-end', payload)
     },
     onSort () {
       // Called once for item being removed, and once for item being added?

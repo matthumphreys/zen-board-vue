@@ -2,7 +2,8 @@
   <div id="app">
     <board />
     <footer class="zen-footer">
-      <a href="https://github.com/mhumph/zenboard"><span class="zfo-logo-dark">Zen</span><span class="zfo-logo-light">board</span></a><span class="zfo-version">v0.3</span>
+      <a class="zfo-logo" href="https://github.com/mhumph/zenboard"><span class="zfo-logo-dark">Zen</span><span class="zfo-logo-light">board</span></a>
+      <span class="zfo-text">v0.3 | <a class="zfo-link" href="https://www.shutterstock.com/video/clip-12129530.html" target="_new">Beach loop &copy; Flixel Photos</a> | <a class="zfo-link" href="https://www.freepik.com/free-photos-vectors/icon" target="_new">Icon vector created by Freepik</a></span>
     </footer>
   </div>
 </template>
@@ -42,7 +43,7 @@ export default {
     text-align: center;
     margin: 15px;
   }
-  .zen-footer a {
+  .zen-footer a.zfo-logo {
     background-color: #fff;
     color: #FFF;
     font-size: 14px;
@@ -58,10 +59,14 @@ export default {
     margin-left: 1px;
     font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
-  .zfo-version {
+  .zfo-text {
     color: #FFF;
     font-size: 12px;
     margin-left: 5px;
+  }
+  .zfo-link {
+    color: #FFF;
+    text-decoration: none;
   }
 
   /* Zen modal ****************************************************************/
