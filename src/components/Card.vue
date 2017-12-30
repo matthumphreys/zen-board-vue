@@ -1,6 +1,7 @@
 <template>
-  <div :class="{'zbr-card': true, 'zca-urgent': isUrgent}" :data-card-id="card.id"
-      v-on:click="editDetails" :title="'id: ' + card.id">{{card.title}}<nudge :cardId="card.id" /></div>
+  <div :class="{'zbr-card': true, 'zca-urgent': isUrgent}"
+      :data-card-id="card.id" v-on:click="editDetails"
+      :title="'id: ' + card.id">{{card.title}}<nudge :cardId="card.id" :lastDragColId="lastDragColId" /></div>
 </template>
 
 <script>
@@ -9,8 +10,10 @@ import Nudge from './Nudge'
 
 export default {
   name: 'card',
-  props: ['card'],
-  components: {Nudge},
+  props: ['card', 'colId', 'lastDragColId'],
+  components: {
+    Nudge
+  },
   methods: {
     editDetails: function () {
       console.log('card:editDetails')

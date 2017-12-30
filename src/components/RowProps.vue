@@ -57,7 +57,7 @@ export default {
   div.zro-props {
     /*margin-top: 4px;*/
     margin-left: 3px;
-    font-size: 14px;
+    font-size: 15px;
   }
   div.zro-prop {
     padding-top: 12px;

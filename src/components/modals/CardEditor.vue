@@ -5,8 +5,10 @@
   -->
   <div v-if="card" class="zen-modal zen-card-editor" @click="onCancelIfClickOutside">
     <!-- ^^ Clicking on background cancels the editor -->
-    <div class="zmo-content" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
-      <div class="zfo-title"><input type="text" name="title" v-model="card.title" v-focus></div>
+    <div class="zmo-content" @keydown.meta.enter="onSave" @keyup.esc="onCancel">
+      <div class="zfo-title">
+        <input type="text" name="title" v-model="card.title" v-focus @keyup.enter="onSave">
+      </div>
       <div class="zfo-description"><textarea name="description" v-model="card.description"></textarea></div>
       <div class="zfo-buttons">
           <input type="button" class="zfo-button zfo-cancel" value="Cancel" title="[Esc]" @click="onCancel">
@@ -54,10 +56,6 @@ export default {
 
     EventBus.$on('global-cancel', function () {
       self.onCancel()
-    })
-
-    EventBus.$on('global-save-card', function () {
-      self.onSave()
     })
   },
   methods: {

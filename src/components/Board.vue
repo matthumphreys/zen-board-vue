@@ -1,12 +1,12 @@
 <!--
 This component is responsible for socketio.
+(Drag and drop is handled by Cell component).
 -->
 <template>
   <div class="zbr-container">
     <masthead :hasRows="rows.length" :title="title" />
     <!-- Use of tables *is* appropiate here... it's tabular data! -->
-    <!-- @keyup.meta.enter doesn't work https://github.com/vuejs/vue/issues/1813 -->
-    <table class="zbr-main" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
+    <table class="zbr-main" @keydown.esc="onCancel">
       <!-- Header row -->
       <tr>
         <td class="zbr-col-empty">
@@ -22,7 +22,7 @@ This component is responsible for socketio.
       </tr>
 
       <!-- @card-drag-end is propagated up from Cell component -->
-      <row v-for="row in rows" :row="row" key="row.id" @card-drag-end="cardDragEnd" />
+      <row v-for="row in rows" :row="row" key="row.id" :lastDragColId="lastDragColId" @card-drag-end="cardDragEnd" />
 
       <tr v-if="rows.length === 0">
         <td colspan="5" class="zbr-table-bg">
@@ -61,7 +61,9 @@ export default {
     return {
       rows: [],
       archivedRows: [],
-      title: ''
+      title: '',
+      lastDragCardId: false,
+      lastDragColId: false
     }
   },
   sockets: {
@@ -113,12 +115,6 @@ export default {
       console.log('board:onCancel')
       EventBus.$emit('global-cancel', true)
     },
-    onSave: function (data) {
-      // Avoid "global" save - it's unclear if it should apply to draft card, card modal or row modal
-
-      // console.log('board:onSave')
-      // EventBus.$emit('global-save', true)
-    },
     loadTitle: function () {
       let self = this
       fetch(process.env.API_URL + '/api/board/').then(function (response) {
@@ -157,6 +153,10 @@ export default {
       console.log('draft-card-save', draftCard)
       // XXX: Call API from DraftCard component instead!
       this.$socket.emit('card:create', draftCard)
+    })
+    EventBus.$on('card-drag-start', function (draggedCard) {
+      self.lastDragCardId = draggedCard.colId
+      self.lastDragColId = draggedCard.colId
     })
   }
 }

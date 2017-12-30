@@ -8,14 +8,16 @@ Each row can be thought of as a "wave" of work.
         <div class="zro-title" @click="onClick" :data-is-test-data="row.title === '0F65u28Rc66ORYII'">{{row.title}}</div>
       </div>
       <row-props :description="row.description" />
-      <transition name="zro-fade">
+      <!-- TODO: <transition name="zro-fade"> -->
         <div v-if="hover" class="zro-button" @click="addDraftCard" disabled="hasDraftCard">+&nbsp;Add&nbsp;card</div>
-      </transition>
+      <!-- </transition> -->
+      <div v-if="!hover" class="zro-button zro-button-placeholder">+&nbsp;Add&nbsp;card</div>
     </th>
+
     <!-- @card-drag-end is originally fired within cell component -->
     <cell v-for="(cell, index) in row.cells"
         :cell="cell" :key="(row.id + ',' + index)" :rowId="row.id"
-        :hasDraftCard="hasDraftCard && (cell.colId === 1)"
+        :hasDraftCard="hasDraftCard && (cell.colId === 1)" :lastDragColId="lastDragColId"
         @card-drag-end="cardDragEnd" />
   </tr>
 </template>
@@ -30,7 +32,7 @@ export default {
   components: {
     cell, rowProps
   },
-  props: ['row'],
+  props: ['row', 'lastDragColId'],
   data () {
     return {
       hasDraftCard: false,
@@ -85,7 +87,7 @@ export default {
     text-align: left;
     font-weight: normal;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    padding-bottom: 13px;
+    padding-bottom: 10px;
   }
 
   .zro-title-container {
@@ -111,7 +113,7 @@ export default {
     background-color: #BBB;
     color: #000;
     padding: 4px 5px 4px 4px;
-    margin-top: 8px;
+    margin-top: 10px;
     display: inline-block;
     cursor: pointer;
     border-radius: 2px;
@@ -119,6 +121,9 @@ export default {
   }
   .zro-button:hover {
     background-color: #AAA;
+  }
+  .zro-button-placeholder {
+    visibility: hidden;
   }
 
   /** TRANSITIONS *************************************************************/

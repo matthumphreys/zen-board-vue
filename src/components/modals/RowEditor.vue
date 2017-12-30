@@ -6,8 +6,11 @@
   <div v-if="row" class="zen-modal zen-row-editor" @click="onCancelIfClickOutside">
     <!-- ^^ Clicking on background cancels the editor -->
 
-    <div class="zmo-content" @keyup.ctrl.enter="onSave" @keyup.esc="onCancel">
-      <div class="zfo-title"><input type="text" name="label" v-model="row.title" v-focus :placeholder="(row.isNew) ? 'New row' : 'Title'"></div>
+    <div class="zmo-content" @keydown.meta.enter="onSave" @keyup.esc="onCancel">
+      <div class="zfo-title">
+        <input type="text" name="label" v-model="row.title" v-focus
+            :placeholder="(row.isNew) ? 'New row' : 'Title'" @keyup.enter="onSave">
+      </div>
       <div v-if="allRows.length" class="zre-position">
         Position <select v-model="row.position">
           <option :value="1">1 (top)</option>
@@ -86,10 +89,6 @@ export default {
 
     EventBus.$on('global-cancel', function () {
       self.onCancel()
-    })
-
-    EventBus.$on('global-save-row', function () {
-      self.onSave()
     })
   },
   methods: {

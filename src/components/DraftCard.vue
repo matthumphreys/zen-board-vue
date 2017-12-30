@@ -1,10 +1,10 @@
 <template>
-  <div class="zen-draft-card" @keyup.ctrl.enter="onSave">
+  <div class="zen-draft-card" @keydown.meta.enter="onSave" @keyup.enter="onSave">
     <div class="zdc-title" :contenteditable="true" @input="onInput" v-focus></div>
     <div class="zdc-button-container">
       <span class="zdc-button zdc-cancel" title="[Esc]" @click="onCancel"
           :data-row-id="rowId" :data-col-id="colId">Cancel</span>
-      <span class="zdc-button zdc-save" title="[CTRL + Enter]" @click="onSave">Save</span>
+      <span class="zdc-button zdc-save" title="[Enter]" @click="onSave">Save</span>
     </div>
   </div>
 </template>
