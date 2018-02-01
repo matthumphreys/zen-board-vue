@@ -6,7 +6,7 @@ This component is reponsible for dragging and dropping cards.
       :data-col-id="cell.colId" :data-row-id="rowId"
       @end="onEnd" @start="onStart">
     <card v-for="card in cell.cards" :card="card" key="card.id"
-        :colId="cell.colId" :lastDragColId="lastDragColId" />
+        :colId="cell.colId" :lastDragColId="lastDragColId" :newCardId="newCardId" />
     <draft-card v-if="hasDraftCard" :rowId="rowId" :colId="cell.colId" :numCards="cell.cards.length"/>
   </draggable>
 </template>
@@ -19,7 +19,7 @@ import EventBus from './EventBus'
 
 export default {
   name: 'cell',
-  props: ['cell', 'rowId', 'hasDraftCard', 'lastDragColId'],
+  props: ['cell', 'rowId', 'hasDraftCard', 'lastDragColId', 'newCardId'],
   components: {
     draggable, card, draftCard
   },
@@ -51,6 +51,7 @@ export default {
         }
         this.$emit('card-drag-end', payload)  // XXX: Use EventBus instead
         EventBus.$emit('card-drag-end', payload)
+        EventBus.$emit('card-nudge', payload)
       }
     },
     onStart (event) {

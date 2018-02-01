@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="zbr-masthead">
     <!-- Click to edit, ESC to cancel, ENTER to save, blur to save -->
     <h1 v-if="true" class="zbr-heading" :contenteditable="isTitleBeingEdited"
         @click="editTitle" @keydown.enter="saveTitleOnEnter" @blur="saveTitle"
@@ -7,8 +7,8 @@
 
     <nav class="zbr-nav">
       <ul>
-        <li class="zbr-nav-item zbr-add-row" @click="addRow">+ Add row</li>
-        <li v-if="hasRows" class="zbr-nav-item zbr-add-card" @click="addCard">+ Add card</li>
+        <li class="zbr-nav-item zbr-add-row" @click="addRow">+&nbsp;Add&nbsp;row</li>
+        <li v-if="hasRows" class="zbr-nav-item zbr-add-card" @click="addCard">+&nbsp;Add&nbsp;card</li>
       </ul>
     </nav>
   </header>
@@ -93,8 +93,19 @@ export default {
   .zbr-nav {
     display: inline;
     position: relative;
-    top: -13px;
+    top: -14px;
   }
+
+  /** Tweak heading for mobile, to avoid nav buttons breaking onto two lines */
+  @media (max-width: 400px) {
+    .zbr-heading {
+      font-size: 22px;
+    }
+    .zbr-nav {
+      top: -10px;
+    }
+  }
+
   .zbr-nav ul {
     display: inline;
     padding: 0;

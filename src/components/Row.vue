@@ -17,7 +17,7 @@ Each row can be thought of as a "wave" of work.
     <!-- @card-drag-end is originally fired within cell component -->
     <cell v-for="(cell, index) in row.cells"
         :cell="cell" :key="(row.id + ',' + index)" :rowId="row.id"
-        :hasDraftCard="hasDraftCard && (cell.colId === 1)" :lastDragColId="lastDragColId"
+        :hasDraftCard="hasDraftCard && (cell.colId === 1)" :lastDragColId="lastDragColId" :newCardId="newCardId"
         @card-drag-end="cardDragEnd" />
   </tr>
 </template>
@@ -32,7 +32,7 @@ export default {
   components: {
     cell, rowProps
   },
-  props: ['row', 'lastDragColId'],
+  props: ['row', 'lastDragColId', 'newCardId'],
   data () {
     return {
       hasDraftCard: false,

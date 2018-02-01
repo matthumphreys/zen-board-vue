@@ -1,7 +1,7 @@
 <template>
   <div :class="{'zbr-card': true, 'zca-urgent': isUrgent}"
       :data-card-id="card.id" v-on:click="editDetails"
-      :title="'id: ' + card.id">{{card.title}}<nudge :cardId="card.id" :lastDragColId="lastDragColId" /></div>
+      :title="'id: ' + card.id">{{card.title}}<nudge :cardId="card.id" :lastDragColId="lastDragColId" :newCardId="newCardId" /></div>
 </template>
 
 <script>
@@ -10,7 +10,7 @@ import Nudge from './Nudge'
 
 export default {
   name: 'card',
-  props: ['card', 'colId', 'lastDragColId'],
+  props: ['card', 'colId', 'lastDragColId', 'newCardId'],
   components: {
     Nudge
   },

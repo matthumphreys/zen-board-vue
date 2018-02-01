@@ -3,7 +3,7 @@
     <board />
     <footer class="zen-footer">
       <a class="zfo-logo" href="https://github.com/mhumph/zenboard"><span class="zfo-logo-dark">Zen</span><span class="zfo-logo-light">board</span></a>
-      <span class="zfo-text">v0.3 | <a class="zfo-link" href="https://www.shutterstock.com/video/clip-12129530.html" target="_new">Beach loop &copy; Flixel Photos</a> | <a class="zfo-link" href="https://www.freepik.com/free-photos-vectors/icon" target="_new">Icon vector created by Freepik</a></span>
+      <span class="zfo-text">v0.4 | <a class="zfo-link" href="https://www.shutterstock.com/video/clip-12129530.html" target="_new">Beach loop &copy; Flixel Photos</a> | <a class="zfo-link" href="https://www.freepik.com/free-photos-vectors/icon" target="_new">Icon vector created by Freepik</a></span>
     </footer>
   </div>
 </template>

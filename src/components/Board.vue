@@ -22,7 +22,7 @@ This component is responsible for socketio.
       </tr>
 
       <!-- @card-drag-end is propagated up from Cell component -->
-      <row v-for="row in rows" :row="row" key="row.id" :lastDragColId="lastDragColId" @card-drag-end="cardDragEnd" />
+      <row v-for="row in rows" :row="row" key="row.id" :lastDragColId="lastDragColId" :newCardId="newCardId" @card-drag-end="cardDragEnd" />
 
       <tr v-if="rows.length === 0">
         <td colspan="5" class="zbr-table-bg">
@@ -63,20 +63,34 @@ export default {
       archivedRows: [],
       title: '',
       lastDragCardId: false,
-      lastDragColId: false
+      lastDragColId: false,
+      newCardId: false
     }
   },
   sockets: {
     connect: function () {
       console.log('socket connected')
     },
-    boardRefresh: function (rows) {
-      console.log('boardRefresh', rows)
-      this.rows = rows
+    boardRefresh: function (board) {
+      console.log('boardRefresh', board)
+      // this.newCardId = (board.newCard) ? board.newCard.id : false
+      this.rows = board.rows
+      // if (board.newCard) {
+      //   console.log('board.newCard!!!')
+      //   let payload = {
+      //     id: board.newCard.id,
+      //     colId: board.newCard.colId
+      //   }
+      //   EventBus.$emit('card-nudge', payload)
+      // }
     },
     boardTitleLoaded: function (boardTitle) {
       console.log('boardTitleLoaded')
       EventBus.$emit('board-title-loaded', boardTitle)
+    },
+    cardCreate: function (card) {
+      console.log('board:cardCreated')
+      this.newCardId = card.id
     }
     // TODO: archiveRefresh
   },
@@ -145,10 +159,10 @@ export default {
   },
   mounted () {
     let self = this
-    EventBus.$on('rows-refreshed', function (rows) {
-      console.log('board:rows-refreshed')
-      self.rows = rows
-    })
+    // EventBus.$on('rows-refreshed', function (board) {
+    //   console.log('board:rows-refreshed')
+    //   self.rows = board.rows
+    // })
     EventBus.$on('draft-card-save', function (draftCard) {
       console.log('draft-card-save', draftCard)
       // XXX: Call API from DraftCard component instead!
