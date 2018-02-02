@@ -1,8 +1,8 @@
 # zenboard-vue
 
-This is the Vue.js UI for [Zenboard][https://github.com/mhumph/zenboard].
+This is the Vue.js UI for [Zenboard](https://github.com/mhumph/zenboard).
 
-It's Vue.js project created using vue-cli, vue-loader and webpack.
+It's a Vue.js project created using vue-cli, vue-loader and webpack.
 
 ## Build Setup
 
