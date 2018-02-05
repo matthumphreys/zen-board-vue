@@ -4,7 +4,7 @@ This component is responsible for socketio.
 -->
 <template>
   <div class="zbr-container">
-    <masthead :hasRows="rows.length" :title="title" />
+    <Masthead :hasRows="rows.length" :title="title" />
     <!-- Use of tables *is* appropiate here... it's tabular data! -->
     <table class="zbr-main" @keydown.esc="onCancel">
       <!-- Header row -->
@@ -22,7 +22,7 @@ This component is responsible for socketio.
       </tr>
 
       <!-- @card-drag-end is propagated up from Cell component -->
-      <row v-for="row in rows" :row="row" key="row.id" :lastDragColId="lastDragColId" :newCardId="newCardId" @card-drag-end="cardDragEnd" />
+      <Row v-for="row in rows" :row="row" key="row.id" :lastDragColId="lastDragColId" :newCardId="newCardId" @card-drag-end="cardDragEnd" />
 
       <tr v-if="rows.length === 0">
         <td colspan="5" class="zbr-table-bg">
@@ -31,17 +31,17 @@ This component is responsible for socketio.
       </tr>
     </table>
 
-    <cardEditor />
-    <row-editor />
+    <CardEditor />
+    <RowEditor />
     <!-- TODO: <archive :archivedRows='archivedRows' /> -->
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import masthead from './Masthead'
-import row from './Row'
-import cardEditor from './modals/CardEditor'
+import Masthead from './Masthead'
+import Row from './Row'
+import CardEditor from './modals/CardEditor'
 import RowEditor from './modals/RowEditor'
 import Archive from './XArchive'
 import EventBus from './EventBus'
@@ -52,11 +52,11 @@ let apiUrl = process.env.API_URL || window.location.origin
 Vue.use(VueSocketio, apiUrl)
 
 export default {
-  name: 'board',
+  name: 'Board',
   components: {
-    masthead, row, cardEditor, RowEditor, Archive
+    Masthead, Row, CardEditor, RowEditor, Archive
   },
-  props: ['disableFetch'],  // For unit testing only
+  props: ['disableFetch'],  // So unit tests can populate data manually, rather than via API
   data () {
     return {
       rows: [],
@@ -73,16 +73,7 @@ export default {
     },
     boardRefresh: function (board) {
       console.log('boardRefresh', board)
-      // this.newCardId = (board.newCard) ? board.newCard.id : false
       this.rows = board.rows
-      // if (board.newCard) {
-      //   console.log('board.newCard!!!')
-      //   let payload = {
-      //     id: board.newCard.id,
-      //     colId: board.newCard.colId
-      //   }
-      //   EventBus.$emit('card-nudge', payload)
-      // }
     },
     boardTitleLoaded: function (boardTitle) {
       console.log('boardTitleLoaded')
@@ -105,7 +96,7 @@ export default {
   created: function () {
     let self = this
     if (!this.disableFetch) {
-      // XXX: Polyfill for fetch
+      // TODO: Polyfill for fetch
       fetch(process.env.API_URL + '/api/rows/deep').then(function (response) {
         if (!response.ok) {
           throw new Error(response.statusText)

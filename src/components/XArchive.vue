@@ -12,7 +12,7 @@ user unchecks "Archive").
     <h3 class="section-heading">Archived rows</h3>
     <table class="history">
       <!-- Header row -->
-      <tr >
+      <tr>
         <td class="cell-0">
         </td>
         <th class="history-col">To do
@@ -25,19 +25,19 @@ user unchecks "Archive").
         </th>
       </tr>
 
-      <row v-for="row in archivedRows" :row="row" key="row.id" />
+      <Row v-for="row in archivedRows" :row="row" key="row.id" />
     </table>
   </div>
 </template>
 
 <script>
-import row from './Row'
+import Row from './Row'
 
 export default {
-  name: 'archive',
+  name: 'Archive',
   props: ['archivedRows'],
   components: {
-    row
+    Row
   }
 }
 </script>

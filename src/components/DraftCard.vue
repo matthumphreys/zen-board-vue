@@ -19,19 +19,21 @@ const focus = {
 }
 
 export default {
-  name: 'draft-card',
+  name: 'DraftCard',
   props: ['rowId', 'colId', 'numCards'],
   directives: {
     focus: focus
   },
   data () {
     return {
-      title: ''
+      title: '',
+      hasChanges: false // Avoids multiple saves
     }
   },
   methods: {
     onInput: function (event) {
       this.title = event.target.innerText
+      this.hasChanges = true
     },
     onCancel: function (event) {
       let rowId = this.rowId
@@ -45,14 +47,16 @@ export default {
     },
     onSave: function (event) {
       if (this.title) {
-        let cardToSave = {
-          title: this.title,
-          rowId: this.rowId,
-          colId: this.colId,
-          position: this.numCards + 1  // XXX: More robust to do this server-side
+        if (this.hasChanges) {
+          let cardToSave = {
+            title: this.title,
+            rowId: this.rowId,
+            colId: this.colId,
+            position: this.numCards + 1  // XXX: More robust to do this server-side
+          }
+          console.log('draft-card:draft-card-save')
+          EventBus.$emit('draft-card-save', cardToSave)
         }
-        console.log('draft-card:draft-card-save')
-        EventBus.$emit('draft-card-save', cardToSave)
       } else {
         this.onCancel()
       }
@@ -89,7 +93,6 @@ export default {
 
   .zdc-button-container {
     float: right;
-    /*align-content: right;*/
     font-size: 13px;
     margin-top: 3px;
     margin-bottom: 4px;

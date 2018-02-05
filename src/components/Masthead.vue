@@ -18,7 +18,7 @@
 import EventBus from './EventBus'
 
 export default {
-  name: 'masthead',
+  name: 'Masthead',
   props: ['hasRows', 'title'],
   data () {
     return {
@@ -58,9 +58,7 @@ export default {
       this.saveTitle()
     },
     filterKey: function (ev) {
-      console.log('filterKey', ev.key)
       if (ev.key === 'Enter') {
-        console.log('hit')
         ev.preventDefault()
       }
     }

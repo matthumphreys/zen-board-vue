@@ -13,7 +13,7 @@ Row properties. An example property is, "Goal: +5% revenue"
 
 <script>
 export default {
-  name: 'row-props',
+  name: 'RowProps',
   props: ['description'],
   computed: {
     rowProps: function () {
@@ -22,7 +22,7 @@ export default {
       for (let line of lines) {
         let item = false
 
-        /* TODO: Make more flexible */
+        /* XXX: Make more flexible */
         if (line.startsWith('* Goal:')) {
           item = this.lineToNameVal(line, 'Goal', 3)
         }
@@ -55,7 +55,6 @@ export default {
 
 <style>
   div.zro-props {
-    /*margin-top: 4px;*/
     margin-left: 3px;
     font-size: 15px;
   }
@@ -73,13 +72,4 @@ export default {
     margin-right: 5px;
   }
 
-  /*ul.zro-props {
-    margin-top: 4px;
-    margin-left: 3px;
-    font-size: 14px;
-  }
-  li.zro-prop {
-    padding-top: 12px;
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  }*/
 </style>

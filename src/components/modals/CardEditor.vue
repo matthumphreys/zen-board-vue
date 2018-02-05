@@ -30,7 +30,7 @@ const focus = {
 }
 
 export default {
-  name: 'cardEditor',
+  name: 'CardEditor',
   directives: { focus: focus },
   data () {
     return {
@@ -65,7 +65,6 @@ export default {
     },
     onCancelIfClickOutside: function (ev) {
       if (ev.srcElement.classList.contains('zen-card-editor')) {
-        // XXX: Use this.methods.onCancel() instead?
         EventBus.$emit('global-cancel', ev)
       }
     },

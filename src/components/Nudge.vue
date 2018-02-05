@@ -21,12 +21,12 @@
 import EventBus from './EventBus'
 
 export default {
-  name: 'nudge',
+  name: 'Nudge',
   props: ['cardId', 'lastDragColId', 'newCardId'],
   data () {
     return {
-      message: '', // A specific title makes it easier for people to pick up a card',
-      image: '' // https://www.nowyouknowfacts.com/wp-content/uploads/2015/01/SteveJobsCloseUp.jpeg',
+      message: '',
+      image: ''
     }
   },
   mounted () {
@@ -231,7 +231,7 @@ export default {
 </script>
 
 <!--
-Animal avatars might be useful!
+Animal avatars
 https://www.freepik.com/free-vector/variety-of-animal-avatars_766787.htm
 -->
 <style>
@@ -270,9 +270,6 @@ https://www.freepik.com/free-vector/variety-of-animal-avatars_766787.htm
     width: 100%;
     margin-bottom: -8px;
   }
-  .znu-content-jobs {
-    /*min-height: 166px;*/
-  }
 
   /* Arrow css from https://css-tricks.com/snippets/css/css-triangle/ */
   .znu-arrow-down {
@@ -293,7 +290,6 @@ https://www.freepik.com/free-vector/variety-of-animal-avatars_766787.htm
     margin-left: 2px;
     margin-top: 8px;
 
-    /*border-left: 8px solid transparent;*/
     border-right: 9px solid #2260c5;
     border-top: 8px solid transparent;
     border-bottom: 8px solid transparent;

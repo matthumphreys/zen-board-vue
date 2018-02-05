@@ -26,7 +26,7 @@ describe('Board.vue', () => {
       .to.have.string('To create a row')
   })
 
-  it('should NOT render "no rows" message when there rows exist', done => {
+  it('should NOT render "no rows" message when rows exist', done => {
     // const Constructor = Vue.extend(Board)
     // const vm = new Constructor({disableFetch: true}).$mount()
     vm.rows = [{

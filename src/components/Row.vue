@@ -7,7 +7,7 @@ Each row can be thought of as a "wave" of work.
       <div class="zro-title-container">
         <div class="zro-title" @click="onClick" :data-is-test-data="row.title === '0F65u28Rc66ORYII'">{{row.title}}</div>
       </div>
-      <row-props :description="row.description" />
+      <RowProps :description="row.description" />
       <!-- TODO: <transition name="zro-fade"> -->
         <div v-if="hover" class="zro-button" @click="addDraftCard" disabled="hasDraftCard">+&nbsp;Add&nbsp;card</div>
       <!-- </transition> -->
@@ -15,7 +15,7 @@ Each row can be thought of as a "wave" of work.
     </th>
 
     <!-- @card-drag-end is originally fired within cell component -->
-    <cell v-for="(cell, index) in row.cells"
+    <Cell v-for="(cell, index) in row.cells"
         :cell="cell" :key="(row.id + ',' + index)" :rowId="row.id"
         :hasDraftCard="hasDraftCard && (cell.colId === 1)" :lastDragColId="lastDragColId" :newCardId="newCardId"
         @card-drag-end="cardDragEnd" />
@@ -23,14 +23,14 @@ Each row can be thought of as a "wave" of work.
 </template>
 
 <script>
-import cell from './Cell'
-import rowProps from './RowProps'
+import Cell from './Cell'
+import RowProps from './RowProps'
 import EventBus from './EventBus'
 
 export default {
-  name: 'row',
+  name: 'Row',
   components: {
-    cell, rowProps
+    Cell, RowProps
   },
   props: ['row', 'lastDragColId', 'newCardId'],
   data () {
@@ -98,13 +98,6 @@ export default {
     margin-top: 7px;
     cursor: pointer;
     font-weight: bold;
-
-    /*
-    display: inline;
-    background-color: #2260c5;
-    padding: 3px 0px;
-    box-shadow: 5px 0 0 #2260c5, -5px 0 0 #2260c5;
-    */
   }
 
   .zro-button {

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <board />
+    <Board />
     <footer class="zen-footer">
       <a class="zfo-logo" href="https://github.com/mhumph/zenboard"><span class="zfo-logo-dark">Zen</span><span class="zfo-logo-light">board</span></a>
       <span class="zfo-text">v0.4 | <a class="zfo-link" href="https://www.shutterstock.com/video/clip-12129530.html" target="_new">Beach loop &copy; Flixel Photos</a> | <a class="zfo-link" href="https://www.freepik.com/free-photos-vectors/icon" target="_new">Icon vector created by Freepik</a></span>
@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import board from './components/Board'
+import Board from './components/Board'
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    board
+    Board
   }
 }
 </script>
@@ -22,8 +22,8 @@ export default {
 <style>
   html {
     /**
-     * Copied from normalize.css: Prevent iOS and IE text size adjust after
-     * device orientation change, without disabling user zoom.
+     * Copied from Boostrtap's normalize.css: Prevent iOS and IE text size 
+     * adjust after device orientation change, without disabling user zoom.
      */
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
@@ -88,7 +88,7 @@ export default {
     width: 70%;
     max-width: 500px;
     padding: 15px 19px 15px 13px;
-    background-color: #f9f9f9; /* #d5f5f3; */
+    background-color: #f9f9f9;
     border: 1px solid #CCC;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 

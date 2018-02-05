@@ -38,7 +38,7 @@ const focus = {
 }
 
 export default {
-  name: 'row-editor',
+  name: 'RowEditor',
   directives: { focus: focus },
   data () {
     return {
@@ -112,7 +112,6 @@ export default {
       }
     },
     onCancel: function () {
-      // TODO: Persist unsaved changes to localStorage
       this.row = false
     },
     onCancelIfClickOutside: function (ev) {
@@ -143,14 +142,6 @@ export default {
           throw Error(response.statusText)  // Trigger catch
         }
       }).catch(err => alert('Sorry, something went wrong\n\n' + err))
-    },
-    /* meta.enter is broken https://github.com/vuejs/vue/issues/1813 */
-    handleCmdEnter: function (e) {
-      console.log(e)
-      if ((e.metaKey || e.ctrlKey) && e.keyCode === 13) {
-        // XXX: Disabled, clashes with card save
-        // this.onSave()
-      }
     }
   }
 }

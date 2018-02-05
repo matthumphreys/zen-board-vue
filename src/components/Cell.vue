@@ -2,26 +2,26 @@
 This component is reponsible for dragging and dropping cards.
 -->
 <template>
-  <draggable element="td" :list="cell.cards" class="drag-area" :options="dragOptions"
+  <Draggable element="td" :list="cell.cards" class="drag-area" :options="dragOptions"
       :data-col-id="cell.colId" :data-row-id="rowId"
       @end="onEnd" @start="onStart">
-    <card v-for="card in cell.cards" :card="card" key="card.id"
+    <Card v-for="card in cell.cards" :card="card" key="card.id"
         :colId="cell.colId" :lastDragColId="lastDragColId" :newCardId="newCardId" />
-    <draft-card v-if="hasDraftCard" :rowId="rowId" :colId="cell.colId" :numCards="cell.cards.length"/>
-  </draggable>
+    <DraftCard v-if="hasDraftCard" :rowId="rowId" :colId="cell.colId" :numCards="cell.cards.length"/>
+  </Draggable>
 </template>
 
 <script>
-import draggable from 'vuedraggable'
-import card from './Card'
-import draftCard from './DraftCard'
+import Draggable from 'vuedraggable'
+import Card from './Card'
+import DraftCard from './DraftCard'
 import EventBus from './EventBus'
 
 export default {
-  name: 'cell',
+  name: 'Cell',
   props: ['cell', 'rowId', 'hasDraftCard', 'lastDragColId', 'newCardId'],
   components: {
-    draggable, card, draftCard
+    Draggable, Card, DraftCard
   },
   data () {
     return {
@@ -41,7 +41,7 @@ export default {
     // onEnd more appropriate than onMove. (onMove fires even if item isn't dropped).
     onEnd (evt) {
       console.log('onEnd (drag)', evt)
-      // TODO: How to detect if "escape" (cancel) has been pressed??
+      // TODO: Detect if "escape" (cancel) has been pressed??
       if (!this.dragCancelled) {
         let payload = {
           id: evt.clone.dataset.cardId, // cardId
