@@ -4,6 +4,14 @@ This is the Vue.js UI for [Zenboard](https://github.com/mhumph/zenboard).
 
 It's a Vue.js project created using vue-cli, vue-loader and webpack.
 
+ZenBoard is a team board: simpler than JIRA and more powerful than Trello. It's a work in progress. 
+
+## A note on mobile
+
+Like JIRA and Trello it's designed for desktop, because 95% of the time that's where people use it.
+
+Team boards require a very different design for mobile (neither Trello or JIRA do it well yet). We have designs for a dedicated mobile product... watch this space!
+
 ## Build Setup
 
 ``` bash
