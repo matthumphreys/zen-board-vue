@@ -6,7 +6,7 @@ It's a Vue.js project created using vue-cli, vue-loader and webpack.
 
 ZenBoard is a team board: simpler than JIRA and more powerful than Trello. It's a work in progress. 
 
-## A note on mobile
+## A note about mobile
 
 Like JIRA and Trello it's designed for desktop, because 95% of the time that's where people use it.
 

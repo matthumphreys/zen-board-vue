@@ -19,18 +19,4 @@ describe('DraftCard.vue', () => {
     })
     vm.onCancel({})
   })
-
-  it('should fire save event', done => {
-    EventBus.$on('draft-card-save', function (cardToSave) {
-      expect(cardToSave.title).to.equal('Foo')
-      expect(cardToSave.rowId).to.equal(1)
-      expect(cardToSave.colId).to.equal(2)
-      expect(cardToSave.position).to.equal(2)
-      done()
-    })
-    vm.onInput({target: {
-      innerText: 'Foo'
-    }})
-    vm.onSave({})
-  })
 })

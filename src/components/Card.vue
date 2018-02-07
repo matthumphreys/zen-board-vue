@@ -10,7 +10,12 @@ import Nudge from './Nudge'
 
 export default {
   name: 'Card',
-  props: ['card', 'colId', 'lastDragColId', 'newCardId'],
+  props: {
+    card: Object,
+    colId: Number,
+    lastDragColId: [Number, Boolean],
+    newCardId: [Number, Boolean]
+  },
   components: {
     Nudge
   },

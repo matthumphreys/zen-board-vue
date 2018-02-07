@@ -19,7 +19,7 @@ import EventBus from './EventBus'
 
 export default {
   name: 'Masthead',
-  props: ['hasRows', 'title'],
+  props: {hasRows: Boolean, title: String},
   data () {
     return {
       isTitleBeingEdited: false

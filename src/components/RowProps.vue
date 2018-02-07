@@ -14,7 +14,7 @@ Row properties. An example property is, "Goal: +5% revenue"
 <script>
 export default {
   name: 'RowProps',
-  props: ['description'],
+  props: {description: String},
   computed: {
     rowProps: function () {
       let result = []

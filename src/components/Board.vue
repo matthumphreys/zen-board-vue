@@ -4,7 +4,7 @@ This component is responsible for socketio.
 -->
 <template>
   <div class="zbr-container">
-    <Masthead :hasRows="rows.length" :title="title" />
+    <Masthead :hasRows="rows.length > 0" :title="title" />
     <!-- Use of tables *is* appropiate here... it's tabular data! -->
     <table class="zbr-main" @keydown.esc="onCancel">
       <!-- Header row -->
@@ -21,8 +21,7 @@ This component is responsible for socketio.
         </th>
       </tr>
 
-      <!-- @card-drag-end is propagated up from Cell component -->
-      <Row v-for="row in rows" :row="row" key="row.id" :lastDragColId="lastDragColId" :newCardId="newCardId" @card-drag-end="cardDragEnd" />
+      <Row v-for="row in rows" :row="row" key="row.id" :lastDragColId="lastDragColId" :newCardId="newCardId" />
 
       <tr v-if="rows.length === 0">
         <td colspan="5" class="zbr-table-bg">
@@ -56,7 +55,7 @@ export default {
   components: {
     Masthead, Row, CardEditor, RowEditor, Archive
   },
-  props: ['disableFetch'],  // So unit tests can populate data manually, rather than via API
+  props: {disableFetch: Boolean},  // So unit tests can populate data manually, rather than via API
   data () {
     return {
       rows: [],
@@ -112,10 +111,6 @@ export default {
     }
   },
   methods: {
-    cardDragEnd: function (data) {
-      console.log('board:card-drag-end', data)
-      this.$socket.emit('card:move', data)
-    },
     onCancel: function (data) {
       console.log('board:onCancel')
       EventBus.$emit('global-cancel', true)
@@ -150,15 +145,7 @@ export default {
   },
   mounted () {
     let self = this
-    // EventBus.$on('rows-refreshed', function (board) {
-    //   console.log('board:rows-refreshed')
-    //   self.rows = board.rows
-    // })
-    EventBus.$on('draft-card-save', function (draftCard) {
-      console.log('draft-card-save', draftCard)
-      // XXX: Call API from DraftCard component instead!
-      this.$socket.emit('card:create', draftCard)
-    })
+
     EventBus.$on('card-drag-start', function (draggedCard) {
       self.lastDragCardId = draggedCard.colId
       self.lastDragColId = draggedCard.colId

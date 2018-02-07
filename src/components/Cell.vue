@@ -19,7 +19,13 @@ import EventBus from './EventBus'
 
 export default {
   name: 'Cell',
-  props: ['cell', 'rowId', 'hasDraftCard', 'lastDragColId', 'newCardId'],
+  props: {
+    cell: Object,
+    rowId: Number,
+    hasDraftCard: Boolean,
+    lastDragColId: [Number, Boolean],
+    newCardId: [Number, Boolean]
+  },
   components: {
     Draggable, Card, DraftCard
   },
@@ -41,7 +47,7 @@ export default {
     // onEnd more appropriate than onMove. (onMove fires even if item isn't dropped).
     onEnd (evt) {
       console.log('onEnd (drag)', evt)
-      // TODO: Detect if "escape" (cancel) has been pressed??
+      // TODO: Detect if "escape" (cancel) has been pressed
       if (!this.dragCancelled) {
         let payload = {
           id: evt.clone.dataset.cardId, // cardId
@@ -49,15 +55,27 @@ export default {
           colId: evt.to.dataset.colId,  // toColId
           position: evt.newIndex + 1    // toPosition (alternatively, try evt.draggedContext.futureIndex)
         }
-        this.$emit('card-drag-end', payload)  // XXX: Use EventBus instead
-        EventBus.$emit('card-drag-end', payload)
+
+        fetch(process.env.API_URL + '/api/cards/move', {
+          method: 'post',
+          headers: new Headers({'Content-Type': 'application/json'}),
+          body: JSON.stringify(payload)
+
+        }).then(function (response) {
+          if (response.ok) {
+            console.log('Card moved')
+          } else {
+            throw Error(response.statusText)
+          }
+        }).catch(err => alert('Sorry, something went wrong\n\n' + err))
+
         EventBus.$emit('card-nudge', payload)
       }
     },
     onStart (event) {
       let payload = {
-        cardId: event.clone.dataset.cardId,
-        colId: event.srcElement.dataset.colId
+        cardId: parseInt(event.clone.dataset.cardId),
+        colId: parseInt(event.srcElement.dataset.colId)
       }
       EventBus.$emit('card-drag-start', payload)
       console.log('onStart', payload)

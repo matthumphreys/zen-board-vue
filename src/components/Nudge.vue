@@ -22,7 +22,11 @@ import EventBus from './EventBus'
 
 export default {
   name: 'Nudge',
-  props: ['cardId', 'lastDragColId', 'newCardId'],
+  props: {
+    cardId: Number,
+    lastDragColId: [Number, Boolean],
+    newCardId: [Number, Boolean]
+  },
   data () {
     return {
       message: '',

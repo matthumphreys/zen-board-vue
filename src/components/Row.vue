@@ -14,11 +14,9 @@ Each row can be thought of as a "wave" of work.
       <div v-if="!hover" class="zro-button zro-button-placeholder">+&nbsp;Add&nbsp;card</div>
     </th>
 
-    <!-- @card-drag-end is originally fired within cell component -->
     <Cell v-for="(cell, index) in row.cells"
         :cell="cell" :key="(row.id + ',' + index)" :rowId="row.id"
-        :hasDraftCard="hasDraftCard && (cell.colId === 1)" :lastDragColId="lastDragColId" :newCardId="newCardId"
-        @card-drag-end="cardDragEnd" />
+        :hasDraftCard="hasDraftCard && (cell.colId === 1)" :lastDragColId="lastDragColId" :newCardId="newCardId" />
   </tr>
 </template>
 
@@ -32,7 +30,11 @@ export default {
   components: {
     Cell, RowProps
   },
-  props: ['row', 'lastDragColId', 'newCardId'],
+  props: {
+    row: Object,
+    lastDragColId: [Number, Boolean],
+    newCardId: [Number, Boolean]
+  },
   data () {
     return {
       hasDraftCard: false,
@@ -40,11 +42,6 @@ export default {
     }
   },
   methods: {
-    cardDragEnd: function (data) {
-      // Propogate up to parent
-      console.log('row:card-drag-end')
-      this.$emit('card-drag-end', data)
-    },
     addDraftCard: function (event) {
       this.hasDraftCard = true
     },

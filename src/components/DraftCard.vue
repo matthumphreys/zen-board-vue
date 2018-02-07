@@ -20,7 +20,11 @@ const focus = {
 
 export default {
   name: 'DraftCard',
-  props: ['rowId', 'colId', 'numCards'],
+  props: {
+    rowId: Number,
+    colId: Number,
+    numCards: Number
+  },
   directives: {
     focus: focus
   },
@@ -54,8 +58,20 @@ export default {
             colId: this.colId,
             position: this.numCards + 1  // XXX: More robust to do this server-side
           }
-          console.log('draft-card:draft-card-save')
-          EventBus.$emit('draft-card-save', cardToSave)
+
+          fetch(process.env.API_URL + '/api/cards/create', {
+            method: 'post',
+            headers: new Headers({'Content-Type': 'application/json'}),
+            body: JSON.stringify(cardToSave)
+
+          }).then((response) => {
+            if (response.ok) {
+              // Remove card
+              EventBus.$emit('draft-card-cancel', cardToSave)
+            } else {
+              throw Error(response.statusText)
+            }
+          }).catch(err => alert('Sorry, something went wrong\n\n' + err))
         }
       } else {
         this.onCancel()
