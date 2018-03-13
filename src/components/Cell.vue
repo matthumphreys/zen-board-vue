@@ -50,10 +50,10 @@ export default {
       // TODO: Detect if "escape" (cancel) has been pressed
       if (!this.dragCancelled) {
         let payload = {
-          id: evt.clone.dataset.cardId, // cardId
-          rowId: evt.to.dataset.rowId,  // toRowId
-          colId: evt.to.dataset.colId,  // toColId
-          position: evt.newIndex + 1    // toPosition (alternatively, try evt.draggedContext.futureIndex)
+          id: parseInt(evt.clone.dataset.cardId), // cardId
+          rowId: parseInt(evt.to.dataset.rowId),  // toRowId
+          colId: parseInt(evt.to.dataset.colId),  // toColId
+          position: parseInt(evt.newIndex) + 1    // toPosition (alternatively, try evt.draggedContext.futureIndex)
         }
 
         fetch(process.env.API_URL + '/api/cards/move', {

@@ -13,7 +13,7 @@ This component is responsible for socketio.
         </td>
         <th class="zbr-col-heading zbr-todo">To do
         </th>
-        <th class="zbr-col-heading zbr-blocked">Blocked</span>
+        <th class="zbr-col-heading zbr-blocked">Blocked
         </th>
         <th class="zbr-col-heading zbr-inprogress">In progress
         </th>

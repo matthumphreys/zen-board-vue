@@ -36,6 +36,7 @@ export default {
   mounted () {
     let self = this
 
+    console.log('message for card created', this.cardId, this.newCardId)
     if (this.cardId === this.newCardId) {
       self.initMessageForCardCreated()
       EventBus.$emit('nudge-clear', this.newCardId)
@@ -45,7 +46,9 @@ export default {
     EventBus.$on('card-nudge', function (draggedCard) {
       self.message = ''
       self.image = ''
+      console.log('nudge', draggedCard.id, self.cardId)
       if (draggedCard.id.toString() === self.cardId.toString()) {
+        console.log('lastdrag', self.lastDragColId, draggedCard.colId)
         // If this card has changed column (not just moved within a cell)
         if (self.lastDragColId.toString() !== draggedCard.colId.toString()) {
           self.initMessageForCardMoved(draggedCard.colId)
@@ -68,7 +71,7 @@ export default {
   },
   methods: {
     initMessageForCardMoved: function (colId) {
-      if (colId === '4') {
+      if (colId === 4) {
         // Done
         let r = this.getRandomInt(1, 14)
         switch (r) {
@@ -115,7 +118,7 @@ export default {
           //   this.image = 'https://media.giphy.com/media/pa83tvcKjgQUM/giphy.gif'
         }
       }
-      if (colId === '3') {
+      if (colId === 3) {
         // In progress
         let r = this.getRandomInt(1, 20)
         this.icon = false
