@@ -78,8 +78,9 @@ export default {
       console.log('boardTitleLoaded')
       EventBus.$emit('board-title-loaded', boardTitle)
     },
-    cardCreate: function (card) {
+    cardCreated: function (card) {
       console.log('board:cardCreated')
+      // The last card created by this user
       this.newCardId = card.id
     }
     // TODO: archiveRefresh

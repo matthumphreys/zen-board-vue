@@ -36,7 +36,6 @@ export default {
   mounted () {
     let self = this
 
-    console.log('message for card created', this.cardId, this.newCardId)
     if (this.cardId === this.newCardId) {
       self.initMessageForCardCreated()
       EventBus.$emit('nudge-clear', this.newCardId)
