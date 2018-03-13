@@ -100,7 +100,6 @@ export default {
       }
     },
     positionLabel: function (optionPosition) {
-      console.log(this.row.position, optionPosition)
       if (this.row.isNew) {
         return optionPosition + 1
       } else {
