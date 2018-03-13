@@ -5,7 +5,7 @@ This component is reponsible for dragging and dropping cards.
   <Draggable element="td" :list="cell.cards" class="drag-area" :options="dragOptions"
       :data-col-id="cell.colId" :data-row-id="rowId"
       @end="onEnd" @start="onStart">
-    <Card v-for="card in cell.cards" :card="card" key="card.id"
+    <Card v-for="card in cell.cards" :card="card" :key="card.id"
         :colId="cell.colId" :lastDragColId="lastDragColId" :newCardId="newCardId" />
     <DraftCard v-if="hasDraftCard" :rowId="rowId" :colId="cell.colId" :numCards="cell.cards.length"/>
   </Draggable>

@@ -14,7 +14,7 @@
       <div v-if="allRows.length" class="zre-position">
         Position <select v-model="row.position">
           <option :value="1">1 (top)</option>
-          <option v-for="rowOption in allRows" :value="positionLabel(rowOption.position)" v-if="showOption(rowOption.position)">{{positionLabel(rowOption.position)}} (after {{rowOption.title}})</option>
+          <option v-for="rowOption in allRows" :value="positionLabel(rowOption.position)" :key="rowOption.id" v-if="showOption(rowOption.position)">{{positionLabel(rowOption.position)}} (after {{rowOption.title}})</option>
         </select>
       </div>
       <div class="zfo-description"><textarea name="description" v-model="row.description"></textarea></div><!-- placeholder="Any additional info here" -->

@@ -21,7 +21,7 @@ This component is responsible for socketio.
         </th>
       </tr>
 
-      <Row v-for="row in rows" :row="row" key="row.id" :lastDragColId="lastDragColId" :newCardId="newCardId" />
+      <Row v-for="row in rows" :row="row" :key="row.id" :lastDragColId="lastDragColId" :newCardId="newCardId" />
 
       <tr v-if="rows.length === 0">
         <td colspan="5" class="zbr-table-bg">
