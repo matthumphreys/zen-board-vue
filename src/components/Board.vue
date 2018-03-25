@@ -32,7 +32,8 @@ This component is responsible for socketio.
 
     <CardEditor />
     <RowEditor />
-    <!-- TODO: <archive :archivedRows='archivedRows' /> -->
+    <ArchivedRows :archivedRows='archivedRows' />
+    <ArchivedCards :cells='archivedCards' />
   </div>
 </template>
 
@@ -42,7 +43,8 @@ import Masthead from './Masthead'
 import Row from './Row'
 import CardEditor from './modals/CardEditor'
 import RowEditor from './modals/RowEditor'
-import Archive from './XArchive'
+import ArchivedRows from './archive/ArchivedRows'
+import ArchivedCards from './archive/ArchivedCards'
 import EventBus from './EventBus'
 import VueSocketio from 'vue-socket.io'
 
@@ -53,13 +55,14 @@ Vue.use(VueSocketio, apiUrl)
 export default {
   name: 'Board',
   components: {
-    Masthead, Row, CardEditor, RowEditor, Archive
+    Masthead, Row, CardEditor, RowEditor, ArchivedRows, ArchivedCards
   },
   props: {disableFetch: Boolean},  // So unit tests can populate data manually, rather than via API
   data () {
     return {
       rows: [],
       archivedRows: [],
+      archivedCards: [],
       title: '',
       lastDragCardId: false,
       lastDragColId: false,
@@ -73,6 +76,14 @@ export default {
     boardRefresh: function (board) {
       console.log('boardRefresh', board)
       this.rows = board.rows
+    },
+    rowArchiveRefresh: function (archivedRows) {
+      console.log('rowArchiveRefresh', archivedRows)
+      this.archivedRows = archivedRows
+    },
+    cardArchiveRefresh: function (archivedCards) {
+      console.log('cardArchiveRefresh', archivedCards)
+      this.archivedCards = archivedCards
     },
     boardTitleLoaded: function (boardTitle) {
       console.log('boardTitleLoaded')
@@ -90,7 +101,7 @@ export default {
       console.log(newRows)
     },
     archivedRows: function (newRows) {
-      console.log('watched', newRows)
+      console.log('archive', newRows)
     }
   },
   created: function () {
@@ -130,17 +141,31 @@ export default {
     },
     initArchive: function () {
       let self = this
+
       fetch(process.env.API_URL + '/api/archive/rows/deep').then(function (response) {
         if (response.status !== 200) {
           throw Error(response.statusText)
         }
         response.json().then(function (json) {
           self.archivedRows = json
-          console.log('Archive', json)
+          console.log('Archived rows', json)
         })
       }).catch(function (err) {
         console.error(err)
-        alert('Couldn\'t load archive\n\n' + err)
+        alert('Couldn\'t load archived rows\n\n' + err)
+      })
+
+      fetch(process.env.API_URL + '/api/archive/cards').then(function (response) {
+        if (response.status !== 200) {
+          throw Error(response.statusText)
+        }
+        response.json().then(function (json) {
+          self.archivedCards = json
+          console.log('Archived cards', json)
+        })
+      }).catch(function (err) {
+        console.error(err)
+        alert('Couldn\'t load archived cards\n\n' + err)
       })
     }
   },

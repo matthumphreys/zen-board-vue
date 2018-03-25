@@ -10,6 +10,7 @@
         <li class="zbr-nav-item zbr-add-row" @click="addRow">+&nbsp;Add&nbsp;row</li>
         <li v-if="hasRows" class="zbr-nav-item zbr-add-card" @click="addCard">+&nbsp;Add&nbsp;card</li>
       </ul>
+      <!-- <i class="fas fa-search"></i> -->
     </nav>
   </header>
 </template>
