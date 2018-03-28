@@ -17,6 +17,7 @@ export default {
   props: {description: String},
   computed: {
     rowProps: function () {
+      const NUM_JUNK_CHARS = 3
       let result = []
       let lines = this.description.split('\n')
       for (let line of lines) {
@@ -24,13 +25,22 @@ export default {
 
         /* XXX: Make more flexible */
         if (line.startsWith('* Goal:')) {
-          item = this.lineToNameVal(line, 'Goal', 3)
+          item = this.lineToNameVal(line, 'Goal', NUM_JUNK_CHARS)
         }
         if (line.startsWith('* ETA:')) {
-          item = this.lineToNameVal(line, 'ETA', 3)
+          item = this.lineToNameVal(line, 'ETA', NUM_JUNK_CHARS)
         }
         if (line.startsWith('* Ongoing')) {
           item = {name: 'Ongoing'}
+        }
+        if (line.startsWith('* Start:')) {
+          item = this.lineToNameVal(line, 'Start', NUM_JUNK_CHARS)
+        }
+        if (line.startsWith('* End:')) {
+          item = this.lineToNameVal(line, 'End', NUM_JUNK_CHARS)
+        }
+        if (line.startsWith('* Impact:')) {
+          item = this.lineToNameVal(line, 'Impact', NUM_JUNK_CHARS)
         }
 
         if (item) {
