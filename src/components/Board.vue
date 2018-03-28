@@ -32,8 +32,7 @@ This component is responsible for socketio.
 
     <CardEditor />
     <RowEditor />
-    <ArchivedRows :archivedRows='archivedRows' />
-    <ArchivedCards :cells='archivedCards' />
+    <Archive :archivedRows='archivedRows' :archivedCards='archivedCards' />
   </div>
 </template>
 
@@ -43,8 +42,7 @@ import Masthead from './Masthead'
 import Row from './Row'
 import CardEditor from './modals/CardEditor'
 import RowEditor from './modals/RowEditor'
-import ArchivedRows from './archive/ArchivedRows'
-import ArchivedCards from './archive/ArchivedCards'
+import Archive from './archive/Archive'
 import EventBus from './EventBus'
 import VueSocketio from 'vue-socket.io'
 
@@ -55,7 +53,7 @@ Vue.use(VueSocketio, apiUrl)
 export default {
   name: 'Board',
   components: {
-    Masthead, Row, CardEditor, RowEditor, ArchivedRows, ArchivedCards
+    Masthead, Row, CardEditor, RowEditor, Archive
   },
   props: {disableFetch: Boolean},  // So unit tests can populate data manually, rather than via API
   data () {
