@@ -8,7 +8,7 @@ Row tags. An example row tag is, "Goal: +5% revenue"
     -->
     <div v-if="description" class="zro-tags">
       <div v-for="(item, index) in rowProps" class="zro-tag" :key="index"><!-- index is an appropriate key in this scenario -->
-        <span :class="{'zrt-value-archive': isRowArchived}"><span v-if="item.name" :class="{'zrt-name': true, 'zrt-archive': isRowArchived}">{{item.name}}</span>
+        <span :class="{'zrt-archive': isRowArchived}"><span v-if="item.name" :class="{'zrt-name': true, 'zrt-name-archive': isRowArchived}">{{item.name}}</span>
         {{item.val}}</span>
       </div>
     </div>
@@ -90,7 +90,7 @@ export default {
     color: rgba(255, 255, 255, 0.7);
   }
 
-  .zrt-value-archive {
+  .zrt-archive {
     color: rgba(255, 255, 255, 0.7);
   } 
 
