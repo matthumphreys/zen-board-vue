@@ -7,7 +7,7 @@ Each row can be thought of as a "wave" of work.
       <div class="zro-title-container">
         <div class="zro-title" @click="onClick" :data-is-test-data="row.title === '0F65u28Rc66ORYII'">{{row.title}}</div>
       </div>
-      <RowProps :description="row.description" />
+      <RowProps :description="row.description" :isRowArchived="false" />
       <!-- TODO: <transition name="zro-fade"> -->
         <div v-if="hover" class="zro-button" @click="addDraftCard" disabled="hasDraftCard">+&nbsp;Add&nbsp;card</div>
       <!-- </transition> -->

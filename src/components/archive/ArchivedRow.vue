@@ -4,7 +4,7 @@
       <div class="zro-title-container">
         <div class="zro-title zar-title" @click="onClick" :data-is-test-data="row.title === '0F65u28Rc66ORYII'">{{row.title}}</div>
       </div>
-      <RowProps :description="row.description" />
+      <RowProps :description="row.description" :isRowArchived="true" />
     </th>
 
     <td v-for="(cell, index) in row.cells" :cell="cell" :key="index">

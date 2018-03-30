@@ -1,11 +1,12 @@
 <!--
 Row properties. An example property is, "Goal: +5% revenue"
+REFACTOR: Rename to RowTags
 -->
 <template>
     <!-- Having separate "name" and "val" columns is neater but less flexible. Flexible wins. -->
     <div v-if="description" class="zro-props">
       <div v-for="(item) in rowProps" class="zro-prop">
-        <span class="vro-label"><span v-if="item.name" class="zro-prop-name">{{item.name}}</span>
+        <span :class="{'zpr-value-archive': isRowArchived}"><span v-if="item.name" :class="{'zpr-name': true, 'zpr-archive': isRowArchived}">{{item.name}}</span>
         {{item.val}}</span>
       </div>
     </div>
@@ -14,7 +15,7 @@ Row properties. An example property is, "Goal: +5% revenue"
 <script>
 export default {
   name: 'RowProps',
-  props: {description: String},
+  props: {description: String, isRowArchived: Boolean},
   computed: {
     rowProps: function () {
       const NUM_JUNK_CHARS = 3
@@ -72,7 +73,7 @@ export default {
     padding-top: 12px;
     font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif;
   }
-  .zro-prop-name {
+  .zpr-name {
     display: inline;
     background-color: #2260c5; /* Alternate values: #1088d6, #2568d6 */
     padding: 1px 0px 2px;
@@ -81,5 +82,14 @@ export default {
     font-weight: bold;
     margin-right: 5px;
   }
+  .zpr-name-archive {
+    background-color: rgba(34, 96, 197, 0.7);
+    box-shadow: 5px 0 0 rgba(34, 96, 197, 0.7), -4px 0 0 rgba(34, 96, 197, 0.7);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .zpr-value-archive {
+    color: rgba(255, 255, 255, 0.7);
+  } 
 
 </style>
