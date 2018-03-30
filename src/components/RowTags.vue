@@ -7,7 +7,7 @@ Row tags. An example row tag is, "Goal: +5% revenue"
     Could try having val on a new line.
     -->
     <div v-if="description" class="zro-tags">
-      <div v-for="(item) in rowProps" class="zro-tag">
+      <div v-for="(item, index) in rowProps" class="zro-tag" :key="index"><!-- index is an appropriate key in this scenario -->
         <span :class="{'zrt-value-archive': isRowArchived}"><span v-if="item.name" :class="{'zrt-name': true, 'zrt-archive': isRowArchived}">{{item.name}}</span>
         {{item.val}}</span>
       </div>
