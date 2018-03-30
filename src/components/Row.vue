@@ -7,7 +7,7 @@ Each row can be thought of as a "wave" of work.
       <div class="zro-title-container">
         <div class="zro-title" @click="onClick" :data-is-test-data="row.title === '0F65u28Rc66ORYII'">{{row.title}}</div>
       </div>
-      <RowProps :description="row.description" :isRowArchived="false" />
+      <RowTags :description="row.description" :isRowArchived="false" />
       <!-- TODO: <transition name="zro-fade"> -->
         <div v-if="hover" class="zro-button" @click="addDraftCard" disabled="hasDraftCard">+&nbsp;Add&nbsp;card</div>
       <!-- </transition> -->
@@ -22,13 +22,13 @@ Each row can be thought of as a "wave" of work.
 
 <script>
 import Cell from './Cell'
-import RowProps from './RowProps'
+import RowTags from './RowTags'
 import EventBus from './EventBus'
 
 export default {
   name: 'Row',
   components: {
-    Cell, RowProps
+    Cell, RowTags
   },
   props: {
     row: Object,

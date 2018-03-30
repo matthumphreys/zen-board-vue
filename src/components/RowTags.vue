@@ -1,12 +1,14 @@
 <!--
-Row properties. An example property is, "Goal: +5% revenue"
-REFACTOR: Rename to RowTags
+Row tags. An example row tag is, "Goal: +5% revenue"
 -->
 <template>
-    <!-- Having separate "name" and "val" columns is neater but less flexible. Flexible wins. -->
-    <div v-if="description" class="zro-props">
-      <div v-for="(item) in rowProps" class="zro-prop">
-        <span :class="{'zpr-value-archive': isRowArchived}"><span v-if="item.name" :class="{'zpr-name': true, 'zpr-archive': isRowArchived}">{{item.name}}</span>
+    <!-- 
+    Having separate "name" and "val" columns is neater but less flexible. Flexible wins. 
+    Could try having val on a new line.
+    -->
+    <div v-if="description" class="zro-tags">
+      <div v-for="(item) in rowProps" class="zro-tag">
+        <span :class="{'zrt-value-archive': isRowArchived}"><span v-if="item.name" :class="{'zrt-name': true, 'zrt-archive': isRowArchived}">{{item.name}}</span>
         {{item.val}}</span>
       </div>
     </div>
@@ -14,7 +16,7 @@ REFACTOR: Rename to RowTags
 
 <script>
 export default {
-  name: 'RowProps',
+  name: 'RowTags',
   props: {description: String, isRowArchived: Boolean},
   computed: {
     rowProps: function () {
@@ -65,15 +67,15 @@ export default {
 </script>
 
 <style>
-  div.zro-props {
+  div.zro-tags {
     margin-left: 3px;
     font-size: 15px;
   }
-  div.zro-prop {
+  div.zro-tag {
     padding-top: 12px;
     font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif;
   }
-  .zpr-name {
+  .zrt-name {
     display: inline;
     background-color: #2260c5; /* Alternate values: #1088d6, #2568d6 */
     padding: 1px 0px 2px;
@@ -82,13 +84,13 @@ export default {
     font-weight: bold;
     margin-right: 5px;
   }
-  .zpr-name-archive {
+  .zrt-name-archive {
     background-color: rgba(34, 96, 197, 0.7);
     box-shadow: 5px 0 0 rgba(34, 96, 197, 0.7), -4px 0 0 rgba(34, 96, 197, 0.7);
     color: rgba(255, 255, 255, 0.7);
   }
 
-  .zpr-value-archive {
+  .zrt-value-archive {
     color: rgba(255, 255, 255, 0.7);
   } 
 
